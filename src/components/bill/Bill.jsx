@@ -232,7 +232,7 @@ function Bill() {
                         <div className="col-12 p-5 bg-light rounded mb-3">
                             {cartItems.length === 0 ? (
                                 <div className="text-center">
-                                    <img src='/public/images/emptycart1.png' width={200} className="py-5" alt="Empty Cart" />
+                                    <img src='images/emptycart1.png' width={200} className="py-5" alt="Empty Cart" />
                                     <p>START ADDING PRODUCT</p>
                                 </div>
                             ) : (
