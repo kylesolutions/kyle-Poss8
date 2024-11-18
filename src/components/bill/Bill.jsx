@@ -5,48 +5,48 @@ import CartContext from '../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 const foodList = [
-    { name: 'Burger', category: 'Non-Vegetarian', image: 'public/images/Classic Cheeseburger.jpg', price: 200, addons: ['Extra Cheese', 'Bacon', 'Onion Rings'], type: 'food' },
-    { name: 'Cola', category: 'Carbonated', image: 'public/images/Cola.jpeg', price: 50, addons: ['Lemon Slice', 'Ice'], type: 'drink' },
-    { name: 'Pizza', category: 'Non-Vegetarian', image: 'public/images/BBQ_Chicken_Pizza-removebg-preview.png', price: 320, addons: ['Onions', 'Jalapeños', 'Extra BBQ Sauce'], type: 'food' },
-    { name: 'Sandwich', category: 'Vegetarian', image: 'public/images/Grilled_Cheese_Sandwich-removebg-preview.png', price: 220, addons: ['Tomato', 'Basil', 'Extra Cheese'], type: 'food' },
-    { name: 'Lemonade', category: 'Non-Carbonated', image: 'public/images/Lemonade.jpg', price: 60, addons: ['Mint', 'Sugar'], type: 'drink' },
-    { name: 'Mango Lassi', category: 'Non-Carbonated', image: 'public/images/Mango Lassi.avif', price: 80, addons: ['Cardamom', 'Sugar'], type: 'drink' },
-    { name: 'Biryani', category: 'Non-Vegetarian', image: 'public/images/hyderabadi biriyani.png', price: 250, addons: ['Raita', 'Salad', 'Biryani Masala'], type: 'food' },
-    { name: 'Biryani', category: 'Non-Vegetarian', image: 'public/images/dum biriyani.png', price: 320, addons: ['Raita', 'Chutney'], type: 'food' },
-    { name: 'Juice', category: 'Tropical', image: 'public/images/mango-juice.png', price: 140, addons: ['Chili Powder', 'Salt'], type: 'drink' },
-    { name: 'Fried Rice', category: 'Vegetarian', image: 'public/images/egg fried rice.png', price: 240, addons: ['Green Peppers', 'Soy Sauce', 'Chili Flakes'], type: 'food' },
+    { name: 'Burger', category: 'Non-Vegetarian', image: 'images/Classic Cheeseburger.jpg', price: 200, addons: ['Extra Cheese', 'Bacon', 'Onion Rings'], type: 'food' },
+    { name: 'Cola', category: 'Carbonated', image: 'images/Cola.jpeg', price: 50, addons: ['Lemon Slice', 'Ice'], type: 'drink' },
+    { name: 'Pizza', category: 'Non-Vegetarian', image: 'images/BBQ_Chicken_Pizza-removebg-preview.png', price: 320, addons: ['Onions', 'Jalapeños', 'Extra BBQ Sauce'], type: 'food' },
+    { name: 'Sandwich', category: 'Vegetarian', image: 'images/Grilled_Cheese_Sandwich-removebg-preview.png', price: 220, addons: ['Tomato', 'Basil', 'Extra Cheese'], type: 'food' },
+    { name: 'Lemonade', category: 'Non-Carbonated', image: 'images/Lemonade.jpg', price: 60, addons: ['Mint', 'Sugar'], type: 'drink' },
+    { name: 'Mango Lassi', category: 'Non-Carbonated', image: 'images/Mango Lassi.avif', price: 80, addons: ['Cardamom', 'Sugar'], type: 'drink' },
+    { name: 'Biryani', category: 'Non-Vegetarian', image: 'images/hyderabadi biriyani.png', price: 250, addons: ['Raita', 'Salad', 'Biryani Masala'], type: 'food' },
+    { name: 'Biryani', category: 'Non-Vegetarian', image: 'images/dum biriyani.png', price: 320, addons: ['Raita', 'Chutney'], type: 'food' },
+    { name: 'Juice', category: 'Tropical', image: 'images/mango-juice.png', price: 140, addons: ['Chili Powder', 'Salt'], type: 'drink' },
+    { name: 'Fried Rice', category: 'Vegetarian', image: 'images/egg fried rice.png', price: 240, addons: ['Green Peppers', 'Soy Sauce', 'Chili Flakes'], type: 'food' },
     ];
 
 const BurgerList = [
-   { name: 'Classic Cheeseburger', category: 'Non-Vegetarian', image: '/public/images/Classic Cheeseburger1.jpg', price: 200, addons: ['Extra Cheese', 'Bacon', 'Onion Rings'], type: 'food' },
-    { name: 'Bacon BBQ Burger', category: 'Non-Vegetarian', image: '/public/images/bbq burger.png', price: 250, addons: ['Extra Bacon', 'Onion Rings', 'BBQ Sauce'], type: 'food' },
-    { name: 'Spicy Chicken Burger', category: 'Non-Vegetarian', image: '/public/images/Spicy Chicken Burger.jpg', price: 180, addons: ['Extra Cheese', 'Jalapeños', 'Spicy Sauce'], type: 'food' },
-    { name: 'Mushroom Swiss Burger', category: 'Non-Vegetarian', image: '/public/images/Mushroom Swiss Burger.jpg', price: 220, addons: ['Extra Swiss Cheese', 'Grilled Mushrooms', 'Onion Rings'], type: 'food' },
-    { name: 'Double Beef Burger', category: 'Non-Vegetarian', image: '/public/images/Double Beef Burger.webp', price: 300, addons: ['Extra Patty', 'Bacon', 'Cheese'], type: 'food' },
-    { name: 'Veggie Delight Burger', category: 'Vegetarian', image: '/public/images/Veggie Delight Burger.jpg', price: 150, addons: ['Extra Cheese', 'Grilled Mushrooms', 'Avocado'], type: 'food' },
-    { name: 'Black Bean Burger', category: 'Vegetarian', image: '/public/images/Black Bean Burger.jpg', price: 170, addons: ['Extra Cheese', 'Guacamole', 'Lettuce'], type: 'food' },
-    { name: 'Falafel Burger', category: 'Vegetarian', image: '/public/images/Falafel Burger.avif', price: 160, addons: ['Tahini Sauce', 'Extra Falafel', 'Pickles'], type: 'food' },
-    { name: 'Fish Fillet Burger', category: 'Non-Vegetarian', image: '/public/images/Fish Fillet Burger.webp', price: 210, addons: ['Extra Tartar Sauce', 'Cheese', 'Lettuce'], type: 'food' },
-    { name: 'Grilled Chicken Burger', category: 'Non-Vegetarian', image: '/public/images/Grilled Chicken Burger.webp', price: 190, addons: ['Extra Cheese', 'Bacon', 'Mayo'], type: 'food' },
-    { name: 'Halloumi Burger', category: 'Vegetarian', image: '/public/images/Halloumi Burger.jpg', price: 200, addons: ['Grilled Halloumi', 'Lettuce', 'Avocado'], type: 'food' },
-    { name: 'Buffalo Chicken Burger', category: 'Non-Vegetarian', image: 'public/images/Buffalo Chicken Burger.jpg', price: 220, addons: ['Extra Buffalo Sauce', 'Blue Cheese', 'Onion Rings'], type: 'food' }
+   { name: 'Classic Cheeseburger', category: 'Non-Vegetarian', image: 'images/Classic Cheeseburger1.jpg', price: 200, addons: ['Extra Cheese', 'Bacon', 'Onion Rings'], type: 'food' },
+    { name: 'Bacon BBQ Burger', category: 'Non-Vegetarian', image: 'images/bbq burger.png', price: 250, addons: ['Extra Bacon', 'Onion Rings', 'BBQ Sauce'], type: 'food' },
+    { name: 'Spicy Chicken Burger', category: 'Non-Vegetarian', image: 'images/Spicy Chicken Burger.jpg', price: 180, addons: ['Extra Cheese', 'Jalapeños', 'Spicy Sauce'], type: 'food' },
+    { name: 'Mushroom Swiss Burger', category: 'Non-Vegetarian', image: 'images/Mushroom Swiss Burger.jpg', price: 220, addons: ['Extra Swiss Cheese', 'Grilled Mushrooms', 'Onion Rings'], type: 'food' },
+    { name: 'Double Beef Burger', category: 'Non-Vegetarian', image: 'images/Double Beef Burger.webp', price: 300, addons: ['Extra Patty', 'Bacon', 'Cheese'], type: 'food' },
+    { name: 'Veggie Delight Burger', category: 'Vegetarian', image: 'images/Veggie Delight Burger.jpg', price: 150, addons: ['Extra Cheese', 'Grilled Mushrooms', 'Avocado'], type: 'food' },
+    { name: 'Black Bean Burger', category: 'Vegetarian', image: 'images/Black Bean Burger.jpg', price: 170, addons: ['Extra Cheese', 'Guacamole', 'Lettuce'], type: 'food' },
+    { name: 'Falafel Burger', category: 'Vegetarian', image: 'images/Falafel Burger.avif', price: 160, addons: ['Tahini Sauce', 'Extra Falafel', 'Pickles'], type: 'food' },
+    { name: 'Fish Fillet Burger', category: 'Non-Vegetarian', image: 'images/Fish Fillet Burger.webp', price: 210, addons: ['Extra Tartar Sauce', 'Cheese', 'Lettuce'], type: 'food' },
+    { name: 'Grilled Chicken Burger', category: 'Non-Vegetarian', image: 'images/Grilled Chicken Burger.webp', price: 190, addons: ['Extra Cheese', 'Bacon', 'Mayo'], type: 'food' },
+    { name: 'Halloumi Burger', category: 'Vegetarian', image: 'images/Halloumi Burger.jpg', price: 200, addons: ['Grilled Halloumi', 'Lettuce', 'Avocado'], type: 'food' },
+    { name: 'Buffalo Chicken Burger', category: 'Non-Vegetarian', image: 'images/Buffalo Chicken Burger.jpg', price: 220, addons: ['Extra Buffalo Sauce', 'Blue Cheese', 'Onion Rings'], type: 'food' }
 ];
 
 const pizzaList = [
-    { name: 'Margherita Pizza', category: 'Vegetarian', image: '/images/Margherita Pizza.jpg', price: 250, addons: ['Extra Cheese', 'Olives', 'Basil'] },
-    { name: 'Pepperoni Pizza', category: 'Non-Vegetarian', image: '/images/Pepperoni Pizza.jpg', price: 300, addons: ['Extra Cheese', 'Chili Flakes', 'Garlic Sauce'] },
-    { name: 'BBQ Chicken Pizza', category: 'Non-Vegetarian', image: '/images/BBQ Chicken Pizza.jpg', price: 320, addons: ['Onions', 'Jalapeños', 'Extra BBQ Sauce'] },
-    { name: 'Veggie Supreme Pizza', category: 'Vegetarian', image: '/images/Veggie Supreme Pizza.jpeg', price: 280, addons: ['Mushrooms', 'Bell Peppers', 'Spinach'] },
-    { name: 'Hawaiian Pizza', category: 'Non-Vegetarian', image: '/images/Hawaiian Pizza.jpg', price: 350, addons: ['Extra Pineapple', 'Ham', 'Cheese Burst'] },
-    { name: 'Four Cheese Pizza', category: 'Vegetarian', image: '/images/Four Cheese Pizza.jpeg', price: 330, addons: ['Extra Cheese', 'Basil', 'Olives'] },
-    { name: 'Meat Lovers Pizza', category: 'Non-Vegetarian', image: '/images/Meat Lovers Pizza.jpeg', price: 400, addons: ['Bacon', 'Sausage', 'Extra Cheese'] },
-    { name: 'Pesto Veggie Pizza', category: 'Vegetarian', image: '/images/Pesto Veggie Pizza.jpg', price: 290, addons: ['Pesto Sauce', 'Arugula', 'Olives'] },
+    { name: 'Margherita Pizza', category: 'Vegetarian', image: 'images/Margherita Pizza.jpg', price: 250, addons: ['Extra Cheese', 'Olives', 'Basil'] },
+    { name: 'Pepperoni Pizza', category: 'Non-Vegetarian', image: 'images/Pepperoni Pizza.jpg', price: 300, addons: ['Extra Cheese', 'Chili Flakes', 'Garlic Sauce'] },
+    { name: 'BBQ Chicken Pizza', category: 'Non-Vegetarian', image: 'images/BBQ Chicken Pizza.jpg', price: 320, addons: ['Onions', 'Jalapeños', 'Extra BBQ Sauce'] },
+    { name: 'Veggie Supreme Pizza', category: 'Vegetarian', image: 'images/Veggie Supreme Pizza.jpeg', price: 280, addons: ['Mushrooms', 'Bell Peppers', 'Spinach'] },
+    { name: 'Hawaiian Pizza', category: 'Non-Vegetarian', image: 'images/Hawaiian Pizza.jpg', price: 350, addons: ['Extra Pineapple', 'Ham', 'Cheese Burst'] },
+    { name: 'Four Cheese Pizza', category: 'Vegetarian', image: 'images/Four Cheese Pizza.jpeg', price: 330, addons: ['Extra Cheese', 'Basil', 'Olives'] },
+    { name: 'Meat Lovers Pizza', category: 'Non-Vegetarian', image: 'images/Meat Lovers Pizza.jpeg', price: 400, addons: ['Bacon', 'Sausage', 'Extra Cheese'] },
+    { name: 'Pesto Veggie Pizza', category: 'Vegetarian', image: 'images/Pesto Veggie Pizza.jpg', price: 290, addons: ['Pesto Sauce', 'Arugula', 'Olives'] },
 ];
 const ComboList = [
-    { name: 'Soft Drink', price: 50, image: '/public/images/softdrinks.jpg' },
-    { name: 'French Fries', price: 80, image: '/public/images/french fries.avif' },
-    { name: 'Onion Rings', price: 70, image: '/public/images/onion rings.jpg' },
-    { name: 'Side Salad', price: 60, image: '/public/images/side salad.webp' },
+    { name: 'Soft Drink', price: 50, image: 'images/softdrinks.jpg' },
+    { name: 'French Fries', price: 80, image: 'images/french fries.avif' },
+    { name: 'Onion Rings', price: 70, image: 'images/onion rings.jpg' },
+    { name: 'Side Salad', price: 60, image: 'images/side salad.webp' },
 ];
 
 function Bill() {
