@@ -4,10 +4,10 @@
 }
 
 .food-btn{
-    background: #b4b4b4;
+    background: #88e2e9;
 }
 .drink-btn{
-    background-color: rgb(253, 241, 135);
+    background-color: rgb(235, 169, 241);
 }
 .row2 button{
     border: none;
@@ -33,8 +33,8 @@
     flex-direction: column;
     justify-content: space-around;
 }
-.category-name{
+/* .category-name{
     background: #9e9e9e;
     color: rgb(0, 0, 0);
-}
+} */
   
