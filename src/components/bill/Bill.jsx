@@ -123,7 +123,7 @@ function Bill() {
                         {menuItems.map((item, index) => (
                             <div className="col-lg-3 col-md-4 col-6 align-items-center g-3" key={index}>
                                 <div className="card" onClick={() => handleItemClick(item)}>
-                                    <img className="card-img-top" src={item.image} alt={item.name} width="100%" />
+                                    <img className="card-img-top" src={item.image} alt={item.name} width={100} height={100}/>
                                     <div className="card-body px-0 category-name">
                                         <h4 className="card-title fs-6 text-center">{item.name}</h4>
                                     </div>

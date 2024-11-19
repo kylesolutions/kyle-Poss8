@@ -19,8 +19,8 @@
     background:#88e2e9;
 }
 .card-img-top{
-    object-fit: fill;
-    height: 100px;
+    object-fit: cover;
+    
 }
 .side-menu{
     height: 100vh;
