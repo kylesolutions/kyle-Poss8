@@ -57,6 +57,9 @@ label span:hover {
   align-items: center;
   width: 100%;
 }
+.addon-item input:focus{
+    box-shadow: none;
+}
 
 .addon-name {
   flex-grow: 1;
@@ -155,4 +158,27 @@ label span:hover {
   border-color: #003d7a;
 }
 
+/* customised addon */
 
+.addon-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  width: 100%;
+}
+
+.addon-popup .card-body {
+  padding: 20px;
+}
+
+.addon-popup img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}

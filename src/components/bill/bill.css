@@ -13,10 +13,10 @@
     border: none;
 }
 .drink-btn:hover{
-    background: #6daac4;
+    background: rgb(235, 169, 241);
 }
 .food-btn:hover{
-    background: #e47ec9;
+    background:#88e2e9;
 }
 .card-img-top{
     object-fit: fill;

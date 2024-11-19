@@ -16,8 +16,17 @@ function Navbar() {
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
-      <div class="navbar-nav mx-auto">
-        <a class="nav-link active text-black " aria-current="page" href="#" onClick={()=>navigate('bill')}>BILL</a>
+      <div class="navbar-nav mx-auto text-center">
+        {/* <a class="nav-link active text-black " aria-current="page" href="#" onClick={()=>navigate('bill')}>BILL</a> */}
+        <a class="nav-link active text-black " aria-current="page" href="#">
+        <i class="bi bi-house-fill fs-2 "></i>
+          </a>
+          <a class="nav-link active text-black " aria-current="page" href="#">
+          <i class="bi bi-menu-button-wide fs-2"></i>
+          </a>
+          <a class="nav-link active text-black " aria-current="page" href="#">
+          <i class="bi bi-border-all fs-2"></i>
+          </a>
       </div>
     </div>
   </div>
