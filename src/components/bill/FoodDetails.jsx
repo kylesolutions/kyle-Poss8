@@ -10,7 +10,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
 
     const [selectedSize, setSelectedSize] = useState('Medium');
     const [addonCounts, setAddonCounts] = useState({});
-    const [selectedAddon, setSelectedAddon] = useState(null); 
+    const [selectedAddon, setSelectedAddon] = useState(null);
     const [totalPrice, setTotalPrice] = useState(0);
     const [showCombos, setShowCombos] = useState(false);
     const [selectedCombos, setSelectedCombos] = useState([]);
@@ -51,7 +51,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
 
         if (action === 'remove') {
             setAddonCounts((prev) => ({ ...prev, [selectedAddon.addonname]: 0 }));
-            setSelectedAddon(null); 
+            setSelectedAddon(null);
         }
     };
 
@@ -95,13 +95,15 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <p className="mb-0"><strong>Category:</strong> {item.category}</p>
                             <p><strong>Total Price:</strong> ${totalPrice.toFixed(2)}</p>
 
-                            <div>
-                                <strong>Size:</strong>
-                                <div className="size-options">
-                                    {Object.keys(sizePriceMultipliers).map((size) => (
-                                        <label key={size} className="me-3">
+                            <div class="text-center">
+                                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    {Object.keys(sizePriceMultipliers).map((size, index) => (
+                                        <label key={index} className="btn btn-outline-primary" htmlFor={`btncheck-${index}`}>
                                             <input
                                                 type="radio"
+                                                className="btn-check"
+                                                id={`btncheck-${index}`}
+                                                autoComplete="off"
                                                 name="size"
                                                 value={size}
                                                 checked={selectedSize === size}
@@ -113,63 +115,64 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             </div>
 
+
                             <div className="mb-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
-                                {item.addons.map((addon, index) => (
-        <li key={index} className="addon-item">
-            <input
-                type="checkbox"
-                onChange={(e) => handleAddonCheck(addon, e.target.checked)}
-            />
-            <img
-                src={addon.image}
-                alt={addon.addonname}
-                width={20}
-                height={20}
-                className="mx-2"
-            />
-            <span className="addon-name">{addon.addonname}</span>
-        </li>
-    ))}
+                                    {item.addons.map((addon, index) => (
+                                        <li key={index} className="addon-item">
+                                            <input
+                                                type="checkbox"
+                                                onChange={(e) => handleAddonCheck(addon, e.target.checked)}
+                                            />
+                                            <img
+                                                src={addon.image}
+                                                alt={addon.addonname}
+                                                width={20}
+                                                height={20}
+                                                className="mx-2"
+                                            />
+                                            <span className="addon-name">{addon.addonname}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
 
                             {selectedAddon && (
-    <div className="addon-popup card shadow">
-        <div className="card-body">
-            <h5 className="card-title text-center">Customize Add-on: {selectedAddon.addonname}</h5>
-            <div className="text-center">
-                <img
-                    src={selectedAddon.image}
-                    alt={selectedAddon.addonname}
-                    className="img-fluid rounded my-3"
-                    style={{ width: "80px", height: "80px" }}
-                />
-            </div>
-            <div className="addon-controls d-flex justify-content-center align-items-center">
-                <button
-                    className="btn btn-outline-secondary mx-2"
-                    onClick={() => handleAddonChange('decrease')}
-                >
-                    -
-                </button>
-                <span className="mx-3 fs-5">{addonCounts[selectedAddon.addonname]}</span>
-                <button
-                    className="btn btn-outline-secondary mx-2"
-                    onClick={() => handleAddonChange('increase')}
-                >
-                    +
-                </button>
-            </div>
-            <div className="text-center mt-4">
-                <button className="btn btn-danger" onClick={closeAddonPopup}>
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-)}
+                                <div className="addon-popup card shadow">
+                                    <div className="card-body">
+                                        <h5 className="card-title text-center">Customize Add-on: {selectedAddon.addonname}</h5>
+                                        <div className="text-center">
+                                            <img
+                                                src={selectedAddon.image}
+                                                alt={selectedAddon.addonname}
+                                                className="img-fluid rounded my-3"
+                                                style={{ width: "80px", height: "80px" }}
+                                            />
+                                        </div>
+                                        <div className="addon-controls d-flex justify-content-center align-items-center">
+                                            <button
+                                                className="btn btn-outline-secondary mx-2"
+                                                onClick={() => handleAddonChange('decrease')}
+                                            >
+                                                -
+                                            </button>
+                                            <span className="mx-3 fs-5">{addonCounts[selectedAddon.addonname]}</span>
+                                            <button
+                                                className="btn btn-outline-secondary mx-2"
+                                                onClick={() => handleAddonChange('increase')}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                        <div className="text-center mt-4">
+                                            <button className="btn btn-danger" onClick={closeAddonPopup}>
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             <hr />
                             <div className="form-check">
