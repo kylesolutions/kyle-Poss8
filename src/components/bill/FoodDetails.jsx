@@ -16,19 +16,24 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const [selectedCombos, setSelectedCombos] = useState([]);
     const { addToCart } = useContext(CartContext);
 
+    // Calculate total price based on selected size, addons, and combos
     useEffect(() => {
-        setSelectedSize('Medium');
-        setAddonCounts(
-            item.addons.reduce((acc, addon) => {
-                acc[addon.addonname] = 0;
-                return acc;
-            }, {})
-        );
-        setTotalPrice(item.price * sizePriceMultipliers['Medium']);
-    }, [item]);
+        const baseSizePrice = item.price * sizePriceMultipliers[selectedSize];
 
+        // Addon price calculation (considering 'Base' and 'Extra')
+        const addonsPrice = Object.entries(addonCounts).reduce((sum, [addon, multiplier]) => {
+            return sum + (multiplier * ADDON_PRICE);  // Multiply by ADDON_PRICE based on the multiplier
+        }, 0);
+
+        const comboPrice = selectedCombos.reduce((sum, combo) => sum + combo.price, 0);
+
+        setTotalPrice(baseSizePrice + addonsPrice + comboPrice);
+    }, [selectedSize, addonCounts, selectedCombos, item.price]);
+
+    // Handle size change
     const handleSizeChange = (size) => setSelectedSize(size);
 
+    // Handle addon selection (checkbox change)
     const handleAddonCheck = (addon, isChecked) => {
         if (isChecked) {
             setSelectedAddon(addon);
@@ -38,8 +43,11 @@ const FoodDetails = ({ item, combos, onClose }) => {
         }
     };
 
+    // Update the addon count (for increasing or decreasing the quantity)
     const handleAddonChange = (action) => {
         if (!selectedAddon) return;
+
+        const addonPrice = action === 'increase' ? 2 : 1; // Extra or Base price multiplier
 
         setAddonCounts((prev) => {
             const newCount =
@@ -48,24 +56,18 @@ const FoodDetails = ({ item, combos, onClose }) => {
                     : Math.max(0, prev[selectedAddon.addonname] - 1);
             return { ...prev, [selectedAddon.addonname]: newCount };
         });
-
-        if (action === 'remove') {
-            setAddonCounts((prev) => ({ ...prev, [selectedAddon.addonname]: 0 }));
-            setSelectedAddon(null);
-        }
     };
 
-    const closeAddonPopup = () => setSelectedAddon(null);
+    // Handle the change in addon option (Base or Extra)
+    const handleAddonOptionChange = (addonName, option) => {
+        const addonPrice = option === 'Extra' ? 2 : 1; // Set multiplier for Extra vs Base
+        setAddonCounts((prev) => ({
+            ...prev,
+            [addonName]: addonPrice,  // Store price multiplier
+        }));
+    };
 
-    useEffect(() => {
-        const baseSizePrice = item.price * sizePriceMultipliers[selectedSize];
-        const addonsPrice = Object.entries(addonCounts).reduce((sum, [addon, count]) => {
-            return sum + count * ADDON_PRICE;
-        }, 0);
-        const comboPrice = selectedCombos.reduce((sum, combo) => sum + combo.price, 0);
-        setTotalPrice(baseSizePrice + addonsPrice + comboPrice);
-    }, [selectedSize, addonCounts, selectedCombos, item.price]);
-
+    // Add the item to cart
     const handleAddToCart = () => {
         const customizedItem = {
             id: item.id,
@@ -82,6 +84,11 @@ const FoodDetails = ({ item, combos, onClose }) => {
         onClose();
     };
 
+    // Close the addon popup
+    const closeAddonPopup = () => {
+        setSelectedAddon(null);
+    };
+
     return (
         <div className="food-detail bg-dark">
             <div className="modal fade show d-block sec-modal">
@@ -95,7 +102,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <p className="mb-0"><strong>Category:</strong> {item.category}</p>
                             <p><strong>Total Price:</strong> ${totalPrice.toFixed(2)}</p>
 
-                            <div class="text-center">
+                            <div className="text-center">
                                 <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
                                     {Object.keys(sizePriceMultipliers).map((size, index) => (
                                         <label key={index} className="btn btn-outline-primary" htmlFor={`btncheck-${index}`}>
@@ -114,7 +121,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                     ))}
                                 </div>
                             </div>
-
 
                             <div className="mb-3">
                                 <strong>Add-ons:</strong>
@@ -141,7 +147,9 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             {selectedAddon && (
                                 <div className="addon-popup card shadow">
                                     <div className="card-body">
-                                        <h5 className="card-title text-center">Customize Add-on: {selectedAddon.addonname}</h5>
+                                        <h5 className="card-title text-center">
+                                            Customize Add-on: {selectedAddon.addonname}
+                                        </h5>
                                         <div className="text-center">
                                             <img
                                                 src={selectedAddon.image}
@@ -150,24 +158,40 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 style={{ width: "80px", height: "80px" }}
                                             />
                                         </div>
-                                        <div className="addon-controls d-flex justify-content-center align-items-center">
-                                            <button
-                                                className="btn btn-outline-secondary mx-2"
-                                                onClick={() => handleAddonChange('decrease')}
-                                            >
-                                                -
-                                            </button>
-                                            <span className="mx-3 fs-5">{addonCounts[selectedAddon.addonname]}</span>
-                                            <button
-                                                className="btn btn-outline-secondary mx-2"
-                                                onClick={() => handleAddonChange('increase')}
-                                            >
-                                                +
-                                            </button>
+
+                                        <div className="addon-options d-flex justify-content-center mb-4">
+                                            <div>
+                                                <input
+                                                    type="radio"
+                                                    id={`${selectedAddon.addonname}-basic`}
+                                                    name={`addon-option-${selectedAddon.addonname}`}
+                                                    value="Base"
+                                                    checked={addonCounts[selectedAddon.addonname] === 1}
+                                                    onChange={() => handleAddonOptionChange(selectedAddon.addonname, 'Base')}
+                                                />
+                                                <label htmlFor={`${selectedAddon.addonname}-basic`} className="btn btn-outline-primary">
+                                                    {selectedAddon.addonname} (Base)
+                                                </label>
+                                            </div>
+
+                                            <div className="ms-3">
+                                                <input
+                                                    type="radio"
+                                                    id={`${selectedAddon.addonname}-extra`}
+                                                    name={`addon-option-${selectedAddon.addonname}`}
+                                                    value="Extra"
+                                                    checked={addonCounts[selectedAddon.addonname] === 2}
+                                                    onChange={() => handleAddonOptionChange(selectedAddon.addonname, 'Extra')}
+                                                />
+                                                <label htmlFor={`${selectedAddon.addonname}-extra`} className="btn btn-outline-primary">
+                                                    Extra {selectedAddon.addonname}
+                                                </label>
+                                            </div>
                                         </div>
+
                                         <div className="text-center mt-4">
-                                            <button className="btn btn-danger" onClick={closeAddonPopup}>
-                                                Close
+                                            <button className="btn" onClick={closeAddonPopup}>
+                                                Done
                                             </button>
                                         </div>
                                     </div>
