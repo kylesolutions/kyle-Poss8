@@ -199,6 +199,34 @@ function Bill() {
                                                             <img src={item.image} alt={item.name} width={50} height={30} className="me-2" />
                                                             <span>{item.name}</span>
                                                         </div>
+                                                        <div className='d-flex align-items-center'>
+                                                        {item.addonCounts && (
+                                        <div className="addons">
+                                            <strong>Add-ons:</strong>
+                                            <ul>
+                                                {Object.keys(item.addonCounts).map((addonName) => (
+                                                    <li key={addonName}>
+                                                        {addonName} (x{item.addonCounts[addonName]})
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                  
+                                    {item.selectedCombos.length > 0 && (
+                                        <div className="combos">
+                                            <strong>Combos:</strong>
+                                            <ul>
+                                                {item.selectedCombos.map((combo) => (
+                                                    <li key={combo.id}>
+                                                        {combo.name} - ${combo.price.toFixed(2)}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                                        </div>
                                                     </td>
                                                     <td>${item.totalPrice.toFixed(2)}</td>
                                                     <td>

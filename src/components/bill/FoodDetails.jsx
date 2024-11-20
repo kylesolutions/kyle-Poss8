@@ -9,6 +9,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const sizePriceMultipliers = { Small: 1.0, Medium: 1.2, Large: 1.5 };
 
     const [selectedSize, setSelectedSize] = useState('Medium');
+    const [comboSizes, setComboSizes] = useState({});
     const [addonCounts, setAddonCounts] = useState({});
     const [selectedAddon, setSelectedAddon] = useState(null);
     const [selectedCombos, setSelectedCombos] = useState([]);
@@ -22,12 +23,19 @@ const FoodDetails = ({ item, combos, onClose }) => {
             (sum, [addon, multiplier]) => sum + multiplier * ADDON_PRICE,
             0
         );
-        const comboPrice = selectedCombos.reduce((sum, combo) => sum + combo.price, 0);
+        const comboPrice = selectedCombos.reduce((sum, combo) => {
+            const comboSize = comboSizes[combo.id] || 'Medium';
+            const multiplier = sizePriceMultipliers[comboSize];
+            return sum + combo.price * multiplier;
+        }, 0);
 
         setTotalPrice(basePrice + addonsPrice + comboPrice);
-    }, [selectedSize, addonCounts, selectedCombos, item.price]);
+    }, [selectedSize, addonCounts, selectedCombos, comboSizes, item.price]);
 
     const handleSizeChange = (size) => setSelectedSize(size);
+    const handleComboSizeChange = (comboId, size) => {
+        setComboSizes((prev) => ({ ...prev, [comboId]: size }));
+    };
 
     const handleAddonCheck = (addon, isChecked) => {
         if (isChecked) {
@@ -46,8 +54,14 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const toggleComboSelection = (combo) => {
         if (selectedCombos.some((selected) => selected.id === combo.id)) {
             setSelectedCombos((prev) => prev.filter((selected) => selected.id !== combo.id));
+            setComboSizes((prev) => {
+                const newSizes = { ...prev };
+                delete newSizes[combo.id];
+                return newSizes;
+            });
         } else {
             setSelectedCombos((prev) => [...prev, combo]);
+            setComboSizes((prev) => ({ ...prev, [combo.id]: 'Medium' }));
         }
     };
 
@@ -69,6 +83,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
             selectedSize,
             addonCounts,
             selectedCombos,
+            selectedAddon,
             totalPrice,
         };
         addToCart(customizedItem);
@@ -99,7 +114,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
 
-                            {/* Size Selection */}
+                            
                             <div className="text-center">
                                 <div
                                     className="btn-group"
@@ -121,7 +136,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             </div>
 
-                            {/* Add-ons */}
+                         
                             <div className="mt-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
@@ -146,7 +161,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </ul>
                             </div>
 
-                            {/* Add-on Popup */}
+                           
                             {selectedAddon && (
                                 <div className="addon-popup card shadow">
                                     <div className="card-body">
@@ -214,7 +229,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             )}
 
-                            {/* Combos */}
+                            
                             <div className="form-check mt-4">
                                 <input
                                     className="form-check-input"
@@ -256,7 +271,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             )}
 
-                            {/* Selected Combos */}
                             {selectedCombos.length > 0 && (
                                 <div className="selected-combos mt-3">
                                     <h5>Selected Combos:</h5>
@@ -269,22 +283,56 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 <div className="d-flex align-items-center">
                                                     <img
                                                         src={combo.image}
-                                                        alt={combo.name}
+                                                        alt={combo.name}  
                                                         width={50}
                                                         height={35}
                                                         className="rounded me-2"
                                                     />
                                                     <span>{combo.name}</span>
                                                 </div>
-                                                <div>
+                                                <div className='d-flex align-items-center'>
                                                     <span className="me-3">
                                                         ${combo.price.toFixed(2)}
                                                     </span>
+                                                    <div className="text-center">
+                                                        <div
+                                                            className="btn-group"
+                                                            role="group"
+                                                            aria-label="Size selection"
+                                                        >
+                                                            {Object.keys(sizePriceMultipliers).map(
+                                                                (size) => (
+                                                                    <label
+                                                                        key={size}
+                                                                        className="btn btn-outline-primary"
+                                                                    >
+                                                                        <input
+                                                                            type="radio"
+                                                                            name={`combo-size-${combo.id}`}
+                                                                            value={size}
+                                                                            checked={
+                                                                                comboSizes[
+                                                                                    combo.id
+                                                                                ] === size
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handleComboSizeChange(
+                                                                                    combo.id,
+                                                                                    size
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                        {size}
+                                                                    </label>
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                     <button
-                                                        className="btn btn-sm btn-danger"
+                                                        className="btn btn-sm"
                                                         onClick={() => handleRemoveCombo(combo.name)}
                                                     >
-                                                        Remove
+                                                        <i class="bi bi-x-circle-fill"></i>
                                                     </button>
                                                 </div>
                                             </li>
