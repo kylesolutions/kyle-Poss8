@@ -69,7 +69,6 @@ function Bill() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItemForUpdate, setSelectedItemForUpdate] = useState(null);
-
     const { cartItems, addToCart, removeFromCart, updateCartItem, selectedCombos } = useContext(CartContext);
 
     const handleFilter = (category) => {
@@ -114,6 +113,7 @@ function Bill() {
         const totalAmount = cartTotal();
         navigate('/receipt', { state: { totalAmount } });
     };
+   
 
     return (
         <div className="container-fluid">
@@ -166,7 +166,7 @@ function Bill() {
                                 className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
                                 onClick={() => handleFilter('pizza')}
                             >
-                                <img src="/images/Food.png" width={50} alt="Pizza" />
+                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="Pizza" />
                                 Pizza
                             </button>
                         </div>

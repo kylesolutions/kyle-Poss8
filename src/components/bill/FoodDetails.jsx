@@ -11,29 +11,27 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const [selectedSize, setSelectedSize] = useState('Medium');
     const [addonCounts, setAddonCounts] = useState({});
     const [selectedAddon, setSelectedAddon] = useState(null);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [showCombos, setShowCombos] = useState(false);
     const [selectedCombos, setSelectedCombos] = useState([]);
+    const [showCombos, setShowCombos] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0);
     const { addToCart } = useContext(CartContext);
 
-    // Calculate total price based on selected size, addons, and combos
+    
     useEffect(() => {
-        const baseSizePrice = item.price * sizePriceMultipliers[selectedSize];
-
-        // Addon price calculation (considering 'Base' and 'Extra')
-        const addonsPrice = Object.entries(addonCounts).reduce((sum, [addon, multiplier]) => {
-            return sum + (multiplier * ADDON_PRICE);  // Multiply by ADDON_PRICE based on the multiplier
-        }, 0);
-
+        const basePrice = item.price * sizePriceMultipliers[selectedSize];
+        const addonsPrice = Object.entries(addonCounts).reduce(
+            (sum, [addon, multiplier]) => sum + multiplier * ADDON_PRICE,
+            0
+        );
         const comboPrice = selectedCombos.reduce((sum, combo) => sum + combo.price, 0);
 
-        setTotalPrice(baseSizePrice + addonsPrice + comboPrice);
+        setTotalPrice(basePrice + addonsPrice + comboPrice);
     }, [selectedSize, addonCounts, selectedCombos, item.price]);
 
-    // Handle size change
+
     const handleSizeChange = (size) => setSelectedSize(size);
 
-    // Handle addon selection (checkbox change)
+ 
     const handleAddonCheck = (addon, isChecked) => {
         if (isChecked) {
             setSelectedAddon(addon);
@@ -43,31 +41,26 @@ const FoodDetails = ({ item, combos, onClose }) => {
         }
     };
 
-    // Update the addon count (for increasing or decreasing the quantity)
-    const handleAddonChange = (action) => {
-        if (!selectedAddon) return;
-
-        const addonPrice = action === 'increase' ? 2 : 1; // Extra or Base price multiplier
-
-        setAddonCounts((prev) => {
-            const newCount =
-                action === 'increase'
-                    ? prev[selectedAddon.addonname] + 1
-                    : Math.max(0, prev[selectedAddon.addonname] - 1);
-            return { ...prev, [selectedAddon.addonname]: newCount };
-        });
-    };
-
-    // Handle the change in addon option (Base or Extra)
+ 
     const handleAddonOptionChange = (addonName, option) => {
-        const addonPrice = option === 'Extra' ? 2 : 1; // Set multiplier for Extra vs Base
-        setAddonCounts((prev) => ({
-            ...prev,
-            [addonName]: addonPrice,  // Store price multiplier
-        }));
+        const multiplier = option === 'Extra' ? 2 : 1;
+        setAddonCounts((prev) => ({ ...prev, [addonName]: multiplier }));
     };
 
-    // Add the item to cart
+  
+    const toggleComboSelection = (combo) => {
+        if (selectedCombos.some((selected) => selected.id === combo.id)) {
+            setSelectedCombos((prev) => prev.filter((selected) => selected.id !== combo.id));
+        } else {
+            setSelectedCombos((prev) => [...prev, combo]);
+        }
+    };
+    const handleRemoveCombo = (comboName) => {
+        setSelectedCombos((prevCombos) =>
+            prevCombos.filter((combo) => combo.name !== comboName)
+        );
+    };
+      
     const handleAddToCart = () => {
         const customizedItem = {
             id: item.id,
@@ -84,11 +77,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
         onClose();
     };
 
-    // Close the addon popup
-    const closeAddonPopup = () => {
-        setSelectedAddon(null);
-    };
-
     return (
         <div className="food-detail bg-dark">
             <div className="modal fade show d-block sec-modal">
@@ -96,21 +84,34 @@ const FoodDetails = ({ item, combos, onClose }) => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">{item.name}</h5>
+                            <button type="button" className="btn-close" onClick={onClose}></button>
                         </div>
                         <div className="modal-body">
-                            <img src={item.image} alt={item.name} width={100} height={70} className="mb-3 rounded d-flex mx-auto" />
-                            <p className="mb-0"><strong>Category:</strong> {item.category}</p>
-                            <p><strong>Total Price:</strong> ${totalPrice.toFixed(2)}</p>
+                            <img
+                                src={item.image}
+                                alt={item.name}
+                                width={100}
+                                height={70}
+                                className="mb-3 rounded d-flex mx-auto"
+                            />
+                            <p className="mb-0">
+                                <strong>Category:</strong> {item.category}
+                            </p>
+                            <p>
+                                <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
+                            </p>
 
+                         
                             <div className="text-center">
-                                <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    {Object.keys(sizePriceMultipliers).map((size, index) => (
-                                        <label key={index} className="btn btn-outline-primary" htmlFor={`btncheck-${index}`}>
+                                <div
+                                    className="btn-group"
+                                    role="group"
+                                    aria-label="Size selection"
+                                >
+                                    {Object.keys(sizePriceMultipliers).map((size) => (
+                                        <label key={size} className="btn btn-outline-primary">
                                             <input
                                                 type="radio"
-                                                className="btn-check"
-                                                id={`btncheck-${index}`}
-                                                autoComplete="off"
                                                 name="size"
                                                 value={size}
                                                 checked={selectedSize === size}
@@ -122,14 +123,17 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             </div>
 
-                            <div className="mb-3">
+                        
+                            <div className="mt-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
-                                    {item.addons.map((addon, index) => (
-                                        <li key={index} className="addon-item">
+                                    {item.addons.map((addon) => (
+                                        <li key={addon.addonname} className="addon-item">
                                             <input
                                                 type="checkbox"
-                                                onChange={(e) => handleAddonCheck(addon, e.target.checked)}
+                                                onChange={(e) =>
+                                                    handleAddonCheck(addon, e.target.checked)
+                                                }
                                             />
                                             <img
                                                 src={addon.image}
@@ -138,68 +142,14 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 height={20}
                                                 className="mx-2"
                                             />
-                                            <span className="addon-name">{addon.addonname}</span>
+                                            <span>{addon.addonname}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            {selectedAddon && (
-                                <div className="addon-popup card shadow">
-                                    <div className="card-body">
-                                        <h5 className="card-title text-center">
-                                            Customize Add-on: {selectedAddon.addonname}
-                                        </h5>
-                                        <div className="text-center">
-                                            <img
-                                                src={selectedAddon.image}
-                                                alt={selectedAddon.addonname}
-                                                className="img-fluid rounded my-3"
-                                                style={{ width: "80px", height: "80px" }}
-                                            />
-                                        </div>
-
-                                        <div className="addon-options d-flex justify-content-center mb-4">
-                                            <div>
-                                                <input
-                                                    type="radio"
-                                                    id={`${selectedAddon.addonname}-basic`}
-                                                    name={`addon-option-${selectedAddon.addonname}`}
-                                                    value="Base"
-                                                    checked={addonCounts[selectedAddon.addonname] === 1}
-                                                    onChange={() => handleAddonOptionChange(selectedAddon.addonname, 'Base')}
-                                                />
-                                                <label htmlFor={`${selectedAddon.addonname}-basic`} className="btn btn-outline-primary">
-                                                    {selectedAddon.addonname} (Base)
-                                                </label>
-                                            </div>
-
-                                            <div className="ms-3">
-                                                <input
-                                                    type="radio"
-                                                    id={`${selectedAddon.addonname}-extra`}
-                                                    name={`addon-option-${selectedAddon.addonname}`}
-                                                    value="Extra"
-                                                    checked={addonCounts[selectedAddon.addonname] === 2}
-                                                    onChange={() => handleAddonOptionChange(selectedAddon.addonname, 'Extra')}
-                                                />
-                                                <label htmlFor={`${selectedAddon.addonname}-extra`} className="btn btn-outline-primary">
-                                                    Extra {selectedAddon.addonname}
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div className="text-center mt-4">
-                                            <button className="btn" onClick={closeAddonPopup}>
-                                                Done
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            <hr />
-                            <div className="form-check">
+                          
+                            <div className="form-check mt-4">
                                 <input
                                     className="form-check-input"
                                     type="checkbox"
@@ -213,13 +163,25 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 <div className="combo-list mt-3">
                                     <h5>Combo Options:</h5>
                                     <div className="row">
-                                        {combos.map((combo, index) => (
+                                        {combos.map((combo) => (
                                             <div
-                                                key={index}
-                                                className={`col-lg-3 col-md-4 col-6 text-center mb-3 combo-option ${selectedCombos.some((selected) => selected.id === combo.id) ? 'selected' : ''}`}
-                                                onClick={() => handleAddonCheck(combo)}
+                                                key={combo.id}
+                                                className={`col-lg-3 col-md-4 col-6 text-center mb-3 combo-option ${
+                                                    selectedCombos.some(
+                                                        (selected) => selected.id === combo.id
+                                                    )
+                                                        ? 'selected'
+                                                        : ''
+                                                }`}
+                                                onClick={() => toggleComboSelection(combo)}
                                             >
-                                                <img src={combo.image} alt={combo.name} width={100} height={70} className="rounded mb-2" />
+                                                <img
+                                                    src={combo.image}
+                                                    alt={combo.name}
+                                                    width={100}
+                                                    height={70}
+                                                    className="rounded mb-2"
+                                                />
                                                 <p>{combo.name}</p>
                                                 <p>${combo.price.toFixed(2)}</p>
                                             </div>
@@ -227,12 +189,52 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                     </div>
                                 </div>
                             )}
+
+                    
+{selectedCombos.length > 0 && (
+    <div className="selected-combos mt-3">
+        <h5>Selected Combos:</h5>
+        <ul className="list-group">
+            {selectedCombos.map((combo) => (
+                <li key={combo.id} className="list-group-item d-flex justify-content-between align-items-center">
+                    <div className="d-flex align-items-center">
+                        <img
+                            src={combo.image}
+                            alt={combo.name}
+                            width={50}
+                            height={35}
+                            className="rounded me-2"
+                        />
+                        <span>{combo.name}</span>
+                    </div>
+                    <div>
+                        <span className="me-3">${combo.price.toFixed(2)}</span>
+                        <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleRemoveCombo(combo.name)}
+                        >
+                            Remove
+                        </button>
+                    </div>
+                </li>
+            ))}
+        </ul>
+    </div>
+)}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={onClose}
+                            >
                                 Close
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={handleAddToCart}>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleAddToCart}
+                            >
                                 Add To Cart
                             </button>
                         </div>
