@@ -1,6 +1,10 @@
 .row1{
     border-radius: 4px;
 }
+.row2{
+    height: 100vh;
+    overflow-y: scroll;
+}
 
 .food-btn{
     background: #88e2e9;

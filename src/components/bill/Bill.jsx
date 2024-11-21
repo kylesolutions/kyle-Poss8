@@ -237,12 +237,12 @@ function Bill() {
                                                         >
                                                             <i className="bi bi-trash"></i>
                                                         </button>
-                                                        <button
+                                                        {/* <button
                                                             className="btn btn-sm"
                                                             onClick={() => setSelectedItemForUpdate(item)}
                                                         >
                                                             <i className="bi bi-arrow-repeat"></i>
-                                                        </button>
+                                                        </button> */}
                                                     </td>
                                                 </tr>
                                             ))}
