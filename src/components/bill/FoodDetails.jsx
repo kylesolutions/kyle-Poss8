@@ -6,9 +6,9 @@ const FoodDetails = ({ item, combos, onClose }) => {
     if (!item) return null;
 
     const ADDON_PRICE = 1.5;
-    const sizePriceMultipliers = { Small: 1.0, Medium: 1.2, Large: 1.5 };
+    const sizePriceMultipliers = { S: 1.0, M: 1.2, L: 1.5 };
 
-    const [selectedSize, setSelectedSize] = useState('Medium');
+    const [selectedSize, setSelectedSize] = useState('M');
     const [comboSizes, setComboSizes] = useState({});
     const [addonCounts, setAddonCounts] = useState({});
     const [selectedAddon, setSelectedAddon] = useState(null);
@@ -127,14 +127,14 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <p className='text-center'>
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
-                            <div className="text-center">
+                            
                                 <div
-                                    className="btn-group"
+                                    class="radio-inputs"
                                     role="group"
                                     aria-label="Size selection"
                                 >
                                     {Object.keys(sizePriceMultipliers).map((size) => (
-                                        <label key={size} className="btn btn-outline-primary">
+                                        <label key={size} className="radio">
                                             <input
                                                 type="radio"
                                                 name="size"
@@ -142,11 +142,11 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 checked={selectedSize === size}
                                                 onChange={() => handleSizeChange(size)}
                                             />
-                                            {size}
+                                            <span class="name">{size}</span>
                                         </label>
                                     ))}
                                 </div>
-                            </div>
+                            
                             <div className="mt-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
@@ -203,7 +203,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 />
                                                 <label
                                                     htmlFor={`${selectedAddon.addonname}-basic`}
-                                                    className="btn btn-outline-primary "
+                                                    className="btn btn-outline-primary addonName "
                                                 >
                                                     {selectedAddon.addonname}
                                                 </label>
@@ -224,7 +224,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 />
                                                 <label
                                                     htmlFor={`${selectedAddon.addonname}-extra`}
-                                                    className="btn btn-outline-primary"
+                                                    className="btn btn-outline-primary addonName"
                                                 >
                                                     Extra {selectedAddon.addonname}
                                                 </label>

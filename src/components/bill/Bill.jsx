@@ -121,7 +121,7 @@ function Bill() {
                 <div className="col-lg-7 row2">
                     <div className="row">
                         {menuItems.map((item, index) => (
-                            <div className="col-lg-3 col-md-4 col-6 align-items-center g-3" key={index}>
+                            <div className="col-lg-3 col-md-4 col-6 align-items-center my-2" key={index}>
                                 <div className="card" onClick={() => handleItemClick(item)}>
                                     <img className="card-img-top" src={item.image} alt={item.name} width={100} height={100} />
                                     <div className="card-body mb-0 category-name">
