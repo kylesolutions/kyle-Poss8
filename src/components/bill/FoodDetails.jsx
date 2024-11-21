@@ -16,6 +16,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const [showCombos, setShowCombos] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
     const { addToCart } = useContext(CartContext);
+    const [comboVariants, setComboVariants] = useState({});
 
     useEffect(() => {
         const basePrice = item.price * sizePriceMultipliers[selectedSize];
@@ -91,13 +92,18 @@ const FoodDetails = ({ item, combos, onClose }) => {
             basePrice: item.price,
             selectedSize,
             addonCounts,
-            selectedCombos,
+            selectedCombos: selectedCombos.map((combo) => ({
+                ...combo,
+                variant: comboVariants[combo.id] || "No Variant",
+                size: comboSizes[combo.id] || "Medium",
+            })),
             selectedAddon,
             totalPrice,
         };
         addToCart(customizedItem);
         onClose();
     };
+
     return (
         <div className="food-detail bg-dark">
             <div className="modal fade show d-block sec-modal">
@@ -292,6 +298,27 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                     <span className="me-3">${combo.price.toFixed(2)}</span>
+                                                    <div className="text-center me-3">
+                                                        {combo.variants && (
+                                                            <select
+                                                                className="form-select"
+                                                                value={comboVariants[combo.id] || ""}
+                                                                onChange={(e) =>
+                                                                    setComboVariants((prev) => ({
+                                                                        ...prev,
+                                                                        [combo.id]: e.target.value,
+                                                                    }))
+                                                                }
+                                                            >
+                                                                <option value="" disabled>Select a Variant</option>
+                                                                {combo.variants.map((variant) => (
+                                                                    <option key={variant} value={variant}>
+                                                                        {variant}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        )}
+                                                    </div>
                                                     <div className="text-center">
                                                         <div
                                                             className="btn-group"

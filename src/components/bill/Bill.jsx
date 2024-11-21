@@ -59,7 +59,7 @@ const pizzaList = [
 ];
 const ComboList = [
     { name: 'Soft Drink', price: 50, image: 'images/softdrinks.jpg' },
-    { name: 'French Fries', price: 80, image: 'images/french fries.avif' },
+    { name: 'French Fries', price: 80, image: 'images/french fries.avif',variants: ["Spicy", "Non-Spicy", "Cheesy"] },
     { name: 'Onion Rings', price: 70, image: 'images/onion rings.jpg' },
     { name: 'Side Salad', price: 60, image: 'images/side salad.webp' },
 ];
