@@ -1,13 +1,15 @@
 .row1{
-    height: fit-content;
+    height: calc(100vh - 80px);
     border-radius: 4px;
 }
 
 .food-btn{
     background: #88e2e9;
+    flex-direction: column;
 }
 .drink-btn{
     background-color: rgb(235, 169, 241);
+    flex-direction: column;
 }
 .row2 button{
     border: none;

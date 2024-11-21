@@ -173,7 +173,7 @@ function Bill() {
                     </div>
                 </div>
                 <div className="col-lg-4 row1">
-                    <div className="row p-2">
+                    <div className="row p-2 ">
                         <div className="col-12 p-5 bg-light rounded mb-3">
                             {cartItems.length === 0 ? (
                                 <div className="text-center">
@@ -186,9 +186,9 @@ function Bill() {
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Product</th>
+                                                <th scope="col">Item</th>
                                                 <th scope="col">Price</th>
-                                                <th scope="col">Remove</th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

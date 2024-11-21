@@ -121,10 +121,10 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 height={70}
                                 className="mb-3 rounded d-flex mx-auto"
                             />
-                            <p className="mb-0">
+                            <p className="mb-0 text-center">
                                 <strong>Category:</strong> {item.category}
                             </p>
-                            <p>
+                            <p className='text-center'>
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
                             <div className="text-center">
@@ -205,7 +205,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                     htmlFor={`${selectedAddon.addonname}-basic`}
                                                     className="btn btn-outline-primary "
                                                 >
-                                                    {selectedAddon.addonname} (Base)
+                                                    {selectedAddon.addonname}
                                                 </label>
                                             </div>
                                             <div className="ms-3">
