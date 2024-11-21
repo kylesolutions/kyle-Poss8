@@ -17,6 +17,25 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const [totalPrice, setTotalPrice] = useState(0);
     const { addToCart } = useContext(CartContext);
     const [comboVariants, setComboVariants] = useState({});
+    const [selectedDetails, setSelectedDetails] = useState([]);
+
+    const handleSaveCombo = (combo) => {
+        const updatedCombo = {
+            id: combo.id,
+            name: combo.name,
+            size: comboSizes[combo.id] || "M",
+            variant: comboVariants[combo.id] || "No Variant",
+            price: (combo.price * sizePriceMultipliers[comboSizes[combo.id] || "M"]).toFixed(2),
+        };
+        setSelectedDetails((prev) => {
+            const exists = prev.find((c) => c.id === combo.id);
+            if (exists) {
+                return prev.map((c) => (c.id === combo.id ? updatedCombo : c));
+            }
+
+            return [...prev, updatedCombo];
+        });
+    };
 
     useEffect(() => {
         const basePrice = item.price * sizePriceMultipliers[selectedSize];
@@ -73,8 +92,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
         });
     };
 
-
-
     const handleRemoveCombo = (comboName) => {
         setSelectedCombos((prevCombos) =>
             prevCombos.filter((combo) => combo.name !== comboName)
@@ -128,26 +145,26 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <p className='text-center'>
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
-                            
-                                <div
-                                    class="radio-inputs"
-                                    role="group"
-                                    aria-label="Size selection"
-                                >
-                                    {Object.keys(sizePriceMultipliers).map((size) => (
-                                        <label key={size} className="radio">
-                                            <input
-                                                type="radio"
-                                                name="size"
-                                                value={size}
-                                                checked={selectedSize === size}
-                                                onChange={() => handleSizeChange(size)}
-                                            />
-                                            <span class="name">{size}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            
+
+                            <div
+                                class="radio-inputs"
+                                role="group"
+                                aria-label="Size selection"
+                            >
+                                {Object.keys(sizePriceMultipliers).map((size) => (
+                                    <label key={size} className="radio">
+                                        <input
+                                            type="radio"
+                                            name="size"
+                                            value={size}
+                                            checked={selectedSize === size}
+                                            onChange={() => handleSizeChange(size)}
+                                        />
+                                        <span class="name">{size}</span>
+                                    </label>
+                                ))}
+                            </div>
+
                             <div className="mt-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
@@ -274,6 +291,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                             </div>
                                         ))}
                                     </div>
+
                                 </div>
                             )}
 
@@ -281,8 +299,8 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             {selectedCombos.length > 0 && (<>
                                 <div className="addon-popup card shadow">
                                     <div className="card-body">
-                                    <h5>Selected Combos:</h5>
-                                    {selectedCombos.map((combo) => (
+                                        <h5>Selected Combos:</h5>
+                                        {selectedCombos.map((combo) => (
                                             <li
                                                 key={combo.id}
                                                 className="list-group-item d-flex justify-content-between align-items-center"
@@ -298,7 +316,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                     <span>{combo.name}</span>
                                                 </div>
                                                 <div className="d-flex align-items-center">
-                                                ${(combo.price * sizePriceMultipliers[comboSizes[combo.id] || 'M']).toFixed(2)}
+                                                    ${(combo.price * sizePriceMultipliers[comboSizes[combo.id] || 'M']).toFixed(2)}
                                                     <div className="text-center me-3">
                                                         {combo.variants && (
                                                             <select
@@ -347,15 +365,12 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                         <i className="bi bi-x-circle-fill"></i>
                                                     </button>
                                                 </div>
+                                                
                                             </li>
                                         ))}
                                     </div>
                                 </div>
-                                
-                            
-                                
                             </>)}
-
                         </div>
                         <div className="modal-footer">
                             <button
