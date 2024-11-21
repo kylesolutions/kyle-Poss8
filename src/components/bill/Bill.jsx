@@ -5,7 +5,7 @@ import CartContext from '../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 const foodList = [
-    { name: 'Burger', category: 'Non-Vegetarian', image: 'images/Classic Cheeseburger.jpg', price: 200, addons: ['Extra Cheese', 'Bacon', 'Onion Rings'], type: 'food' },
+   
     { name: 'Cola', category: 'Carbonated', image: 'images/Cola.jpeg', price: 50, addons: ['Lemon Slice', 'Ice'], type: 'drink' },
     { name: 'Pizza', category: 'Non-Vegetarian', image: 'images/BBQ_Chicken_Pizza-removebg-preview.png', price: 320, addons: ['Onions', 'Jalapeños', 'Extra BBQ Sauce'], type: 'food' },
     { name: 'Sandwich', category: 'Vegetarian', image: 'images/Grilled_Cheese_Sandwich-removebg-preview.png', price: 220, addons: ['Tomato', 'Basil', 'Extra Cheese'], type: 'food' },

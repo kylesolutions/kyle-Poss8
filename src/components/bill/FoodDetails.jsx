@@ -25,7 +25,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
             0
         );
         const comboPrice = selectedCombos.reduce((sum, combo) => {
-            const comboSize = comboSizes[combo.id] || 'Medium';
+            const comboSize = comboSizes[combo.id] || 'M';
             const multiplier = sizePriceMultipliers[comboSize];
             return sum + combo.price * multiplier;
         }, 0);
@@ -68,7 +68,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                 delete newSizes[combo.id];
                 return newSizes;
             } else {
-                return { ...prevSizes, [combo.id]: 'Medium' };
+                return { ...prevSizes, [combo.id]: 'M' };
             }
         });
     };
