@@ -120,6 +120,9 @@ label span:hover {
   background-color: #f7f7f7;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.btn-outline-primary input:focus{
+  box-shadow: none;
+}
 
 .combo-name {
   font-weight: bold;

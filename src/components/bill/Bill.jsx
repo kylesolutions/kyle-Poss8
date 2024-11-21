@@ -23,28 +23,28 @@ const BurgerList = [
         image: 'images/Classic Cheeseburger1.jpg',
         price: 200,
         addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' },
-        {addonname: 'Bacon', image: 'images/Bacon.jpg' },
+        { addonname: 'Bacon', image: 'images/Bacon.jpg' },
         { addonname: 'Onion Rings', image: 'images/onion rings.jpg' }],
         type: 'food'
     },
     {
         name: 'Bacon BBQ Burger', category: 'Non-Vegetarian',
         image: 'images/bbq burger.png', price: 250,
-        addons: [{addonname: 'Bacon',image:'images/Bacon.jpg' },
-        { addonname: 'Onion Rings',image: 'images/onion rings.jpg' },
-        { addonname: 'BBQ Sauce',image: 'images/bbq-sauce-5sm-3.jpg' }],
+        addons: [{ addonname: 'Bacon', image: 'images/Bacon.jpg' },
+        { addonname: 'Onion Rings', image: 'images/onion rings.jpg' },
+        { addonname: 'BBQ Sauce', image: 'images/bbq-sauce-5sm-3.jpg' }],
         type: 'food'
     },
     { name: 'Spicy Chicken Burger', category: 'Non-Vegetarian', image: 'images/Spicy Chicken Burger.jpg', price: 180, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Jalapeños', image: 'images/Pickled-Jalapenos-above-500x500.webp' }, { addonname: 'Spicy Sauce', image: 'images/spicy sauce.jpg' }], type: 'food' },
     { name: 'Mushroom Swiss Burger', category: 'Non-Vegetarian', image: 'images/Mushroom Swiss Burger.jpg', price: 220, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Grilled Mushrooms', image: 'images/Grilled Mushrooms.jpg' }, { addonname: 'Onion Rings', image: 'images/Onion Rings.webp' }], type: 'food' },
-    { name: 'Double Beef Burger', category: 'Non-Vegetarian', image: 'images/Double Beef Burger.webp', price: 300, addons: [{ addonname: 'Extra Patty', image: 'images/Extra Patty.webp' }, {addonname: 'Bacon', image: 'images/Bacon.jpg' }, { addonname: 'Cheese', image: 'images/cheese.webp' }], type: 'food' },
+    { name: 'Double Beef Burger', category: 'Non-Vegetarian', image: 'images/Double Beef Burger.webp', price: 300, addons: [{ addonname: 'Extra Patty', image: 'images/Extra Patty.webp' }, { addonname: 'Bacon', image: 'images/Bacon.jpg' }, { addonname: 'Cheese', image: 'images/cheese.webp' }], type: 'food' },
     { name: 'Veggie Delight Burger', category: 'Vegetarian', image: 'images/Veggie Delight Burger.jpg', price: 150, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Grilled Mushrooms', image: 'images/Grilled Mushrooms.jpg' }, { addonname: 'Avocado', image: 'images/Avocado.webp' }], type: 'food' },
-    { name: 'Black Bean Burger', category: 'Vegetarian', image: 'images/Black Bean Burger.jpg', price: 170, addons: [{addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Guacamole', image: 'images/Guacamole.jpg' }, {addonname: 'Lettuce', image: 'images/Lettuce.webp' }], type: 'food' },
-    { name: 'Falafel Burger', category: 'Vegetarian', image: 'images/Falafel Burger.avif', price: 160, addons: [{addonname: 'Tahini Sauce', image: 'images/Tahini Sauce.jpg' }, { addonname: 'Falafel', image: 'images/Falafel.jpg' }, {addonname: 'Pickles', image: 'images/Pickles.jpg' }], type: 'food' },
-    { name: 'Fish Fillet Burger', category: 'Non-Vegetarian', image: 'images/Fish Fillet Burger.webp', price: 210, addons: [{ addonname: 'Tartar Sauce', image: 'images/Tartar Sauce.jpg' }, {addonname: 'Cheese', image: 'images/cheese.webp' }, {addonname: 'Lettuce', image: 'images/Lettuce.webp' }], type: 'food' },
-    { name: 'Grilled Chicken Burger', category: 'Non-Vegetarian', image: 'images/Grilled Chicken Burger.webp', price: 190, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Bacon', image: 'images/Bacon.jpg' }, {addonname: 'Mayo', image: 'images/Mayo.jpg' }], type: 'food' },
-    { name: 'Halloumi Burger', category: 'Vegetarian', image: 'images/Halloumi Burger.jpg', price: 200, addons: [{addonname: 'Grilled Halloumi', image: 'images/Grilled Halloumi.jpg' }, { addonname: 'Lettuce', image: 'images/Lettuce.webp' }, { addonname: 'Avocado', image: 'images/Avocado.webp' }], type: 'food' },
-    { name: 'Buffalo Chicken Burger', category: 'Non-Vegetarian', image: 'images/Buffalo Chicken Burger.jpg', price: 220, addons: [{ addonname: 'Buffalo Sauce', image: 'images/Buffalo Sauce.jpg' }, {addonname: 'Blue Cheese', image: 'images/Blue Cheese.jpg' }, { addonname: 'Onion Rings', image: 'images/Onion Rings.webp' }], type: 'food' }
+    { name: 'Black Bean Burger', category: 'Vegetarian', image: 'images/Black Bean Burger.jpg', price: 170, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Guacamole', image: 'images/Guacamole.jpg' }, { addonname: 'Lettuce', image: 'images/Lettuce.webp' }], type: 'food' },
+    { name: 'Falafel Burger', category: 'Vegetarian', image: 'images/Falafel Burger.avif', price: 160, addons: [{ addonname: 'Tahini Sauce', image: 'images/Tahini Sauce.jpg' }, { addonname: 'Falafel', image: 'images/Falafel.jpg' }, { addonname: 'Pickles', image: 'images/Pickles.jpg' }], type: 'food' },
+    { name: 'Fish Fillet Burger', category: 'Non-Vegetarian', image: 'images/Fish Fillet Burger.webp', price: 210, addons: [{ addonname: 'Tartar Sauce', image: 'images/Tartar Sauce.jpg' }, { addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Lettuce', image: 'images/Lettuce.webp' }], type: 'food' },
+    { name: 'Grilled Chicken Burger', category: 'Non-Vegetarian', image: 'images/Grilled Chicken Burger.webp', price: 190, addons: [{ addonname: 'Cheese', image: 'images/cheese.webp' }, { addonname: 'Bacon', image: 'images/Bacon.jpg' }, { addonname: 'Mayo', image: 'images/Mayo.jpg' }], type: 'food' },
+    { name: 'Halloumi Burger', category: 'Vegetarian', image: 'images/Halloumi Burger.jpg', price: 200, addons: [{ addonname: 'Grilled Halloumi', image: 'images/Grilled Halloumi.jpg' }, { addonname: 'Lettuce', image: 'images/Lettuce.webp' }, { addonname: 'Avocado', image: 'images/Avocado.webp' }], type: 'food' },
+    { name: 'Buffalo Chicken Burger', category: 'Non-Vegetarian', image: 'images/Buffalo Chicken Burger.jpg', price: 220, addons: [{ addonname: 'Buffalo Sauce', image: 'images/Buffalo Sauce.jpg' }, { addonname: 'Blue Cheese', image: 'images/Blue Cheese.jpg' }, { addonname: 'Onion Rings', image: 'images/Onion Rings.webp' }], type: 'food' }
 ];
 
 const pizzaList = [
@@ -113,7 +113,7 @@ function Bill() {
         const totalAmount = cartTotal();
         navigate('/receipt', { state: { totalAmount } });
     };
-   
+
 
     return (
         <div className="container-fluid">
@@ -123,7 +123,7 @@ function Bill() {
                         {menuItems.map((item, index) => (
                             <div className="col-lg-3 col-md-4 col-6 align-items-center g-3" key={index}>
                                 <div className="card" onClick={() => handleItemClick(item)}>
-                                    <img className="card-img-top" src={item.image} alt={item.name} width={100} height={100}/>
+                                    <img className="card-img-top" src={item.image} alt={item.name} width={100} height={100} />
                                     <div className="card-body px-0 category-name">
                                         <h4 className="card-title fs-6 text-center">{item.name}</h4>
                                     </div>
@@ -200,36 +200,34 @@ function Bill() {
                                                             <span>{item.name}</span>
                                                         </div>
                                                         <div className='d-flex align-items-center'>
-                                                        {item.addonCounts && (
-                                        <div className="addons">
-                                            <strong>Add-ons:</strong>
-                                            <ul>
-                                                {Object.keys(item.addonCounts).map((addonName) => (
-                                                    <li key={addonName}>
-                                                        {addonName} (x{item.addonCounts[addonName]})
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                  
-                                    {item.selectedCombos.length > 0 && (
-                                        <div className="combos">
-                                            <strong>Combos:</strong>
-                                            <ul>
-                                                {item.selectedCombos.map((combo) => (
-                                                    <li key={combo.id}>
-                                                        {combo.name} - ${combo.price.toFixed(2)}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
+                                                            {item.addonCounts && (
+                                                                <div className="addons">
+                                                                    <strong>Add-ons:</strong>
+                                                                    <ul>
+                                                                        {Object.keys(item.addonCounts).map((addonName) => (
+                                                                            <li key={addonName}>
+                                                                                {addonName} (x{item.addonCounts[addonName]})
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            )}
+                                                            {item.selectedCombos.length > 0 && (
+                                                                <div className="combos">
+                                                                    <strong>Combos:</strong>
+                                                                    <ul>
+                                                                        {item.selectedCombos.map((combo) => (
+                                                                            <li key={combo.id}>
+                                                                                {combo.name} - ${combo.price.toFixed(2)}
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </td>
                                                     <td>${item.totalPrice.toFixed(2)}</td>
-                                                    <td>
+                                                    <td> 
                                                         <button
                                                             className="btn btn-sm"
                                                             onClick={() => removeFromCart(item)}
@@ -279,6 +277,7 @@ function Bill() {
                 />
             )}
         </div>
-)}
+    )
+}
 
 export default Bill;

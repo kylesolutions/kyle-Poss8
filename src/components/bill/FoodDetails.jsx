@@ -52,18 +52,27 @@ const FoodDetails = ({ item, combos, onClose }) => {
     };
 
     const toggleComboSelection = (combo) => {
-        if (selectedCombos.some((selected) => selected.id === combo.id)) {
-            setSelectedCombos((prev) => prev.filter((selected) => selected.id !== combo.id));
-            setComboSizes((prev) => {
-                const newSizes = { ...prev };
+        setSelectedCombos((prevCombos) => {
+            const isAlreadySelected = prevCombos.some((selected) => selected.id === combo.id);
+            if (isAlreadySelected) {
+                return prevCombos.filter((selected) => selected.id !== combo.id);
+            } else {
+                return [...prevCombos, combo];
+            }
+        });
+        setComboSizes((prevSizes) => {
+            if (prevSizes[combo.id]) {
+
+                const newSizes = { ...prevSizes };
                 delete newSizes[combo.id];
                 return newSizes;
-            });
-        } else {
-            setSelectedCombos((prev) => [...prev, combo]);
-            setComboSizes((prev) => ({ ...prev, [combo.id]: 'Medium' }));
-        }
+            } else {
+                return { ...prevSizes, [combo.id]: 'Medium' };
+            }
+        });
     };
+
+
 
     const handleRemoveCombo = (comboName) => {
         setSelectedCombos((prevCombos) =>
@@ -89,7 +98,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
         addToCart(customizedItem);
         onClose();
     };
-
     return (
         <div className="food-detail bg-dark">
             <div className="modal fade show d-block sec-modal">
@@ -113,8 +121,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <p>
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
-
-                            
                             <div className="text-center">
                                 <div
                                     className="btn-group"
@@ -135,8 +141,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                     ))}
                                 </div>
                             </div>
-
-                         
                             <div className="mt-3">
                                 <strong>Add-ons:</strong>
                                 <ul className="addons-list d-flex justify-content-evenly">
@@ -151,9 +155,9 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                             <img
                                                 src={addon.image}
                                                 alt={addon.addonname}
-                                                width={20}
-                                                height={20}
-                                                className="mx-2"
+                                                width={50}
+                                                height={50}
+                                                className="mx-2 rounded"
                                             />
                                             <span>{addon.addonname}</span>
                                         </li>
@@ -161,7 +165,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </ul>
                             </div>
 
-                           
+
                             {selectedAddon && (
                                 <div className="addon-popup card shadow">
                                     <div className="card-body">
@@ -193,7 +197,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 />
                                                 <label
                                                     htmlFor={`${selectedAddon.addonname}-basic`}
-                                                    className="btn btn-outline-primary"
+                                                    className="btn btn-outline-primary "
                                                 >
                                                     {selectedAddon.addonname} (Base)
                                                 </label>
@@ -229,7 +233,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             )}
 
-                            
+
                             <div className="form-check mt-4">
                                 <input
                                     className="form-check-input"
@@ -247,13 +251,8 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                         {combos.map((combo) => (
                                             <div
                                                 key={combo.id}
-                                                className={`col-lg-3 col-md-4 col-6 text-center mb-3 combo-option ${
-                                                    selectedCombos.some(
-                                                        (selected) => selected.id === combo.id
-                                                    )
-                                                        ? 'selected'
-                                                        : ''
-                                                }`}
+                                                className={`col-lg-3 col-md-4 col-6 text-center mb-3 combo-option ${selectedCombos.some((selected) => selected.id === combo.id) ? 'selected' : ''
+                                                    }`}
                                                 onClick={() => toggleComboSelection(combo)}
                                             >
                                                 <img
@@ -271,6 +270,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                 </div>
                             )}
 
+
                             {selectedCombos.length > 0 && (
                                 <div className="selected-combos mt-3">
                                     <h5>Selected Combos:</h5>
@@ -283,56 +283,40 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 <div className="d-flex align-items-center">
                                                     <img
                                                         src={combo.image}
-                                                        alt={combo.name}  
+                                                        alt={combo.name}
                                                         width={50}
                                                         height={35}
                                                         className="rounded me-2"
                                                     />
                                                     <span>{combo.name}</span>
                                                 </div>
-                                                <div className='d-flex align-items-center'>
-                                                    <span className="me-3">
-                                                        ${combo.price.toFixed(2)}
-                                                    </span>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="me-3">${combo.price.toFixed(2)}</span>
                                                     <div className="text-center">
                                                         <div
                                                             className="btn-group"
                                                             role="group"
                                                             aria-label="Size selection"
                                                         >
-                                                            {Object.keys(sizePriceMultipliers).map(
-                                                                (size) => (
-                                                                    <label
-                                                                        key={size}
-                                                                        className="btn btn-outline-primary"
-                                                                    >
-                                                                        <input
-                                                                            type="radio"
-                                                                            name={`combo-size-${combo.id}`}
-                                                                            value={size}
-                                                                            checked={
-                                                                                comboSizes[
-                                                                                    combo.id
-                                                                                ] === size
-                                                                            }
-                                                                            onChange={() =>
-                                                                                handleComboSizeChange(
-                                                                                    combo.id,
-                                                                                    size
-                                                                                )
-                                                                            }
-                                                                        />
-                                                                        {size}
-                                                                    </label>
-                                                                )
-                                                            )}
+                                                            {Object.keys(sizePriceMultipliers).map((size) => (
+                                                                <label key={size} className="btn btn-outline-primary">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name={`combo-size-${combo.id}`}
+                                                                        value={size}
+                                                                        checked={comboSizes[combo.id] === size}
+                                                                        onChange={() => handleComboSizeChange(combo.id, size)}
+                                                                    />
+                                                                    {size}
+                                                                </label>
+                                                            ))}
                                                         </div>
                                                     </div>
                                                     <button
                                                         className="btn btn-sm"
-                                                        onClick={() => handleRemoveCombo(combo.name)}
+                                                        onClick={() => toggleComboSelection(combo)}
                                                     >
-                                                        <i class="bi bi-x-circle-fill"></i>
+                                                        <i className="bi bi-x-circle-fill"></i>
                                                     </button>
                                                 </div>
                                             </li>
@@ -340,6 +324,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                     </ul>
                                 </div>
                             )}
+
                         </div>
                         <div className="modal-footer">
                             <button
