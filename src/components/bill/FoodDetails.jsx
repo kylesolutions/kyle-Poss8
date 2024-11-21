@@ -95,7 +95,8 @@ const FoodDetails = ({ item, combos, onClose }) => {
             selectedCombos: selectedCombos.map((combo) => ({
                 ...combo,
                 variant: comboVariants[combo.id] || "No Variant",
-                size: comboSizes[combo.id] || "Medium",
+                size: comboSizes[combo.id] || "M",
+                price: Number(combo.price) * sizePriceMultipliers[comboSizes[combo.id] || 'M'],
             })),
             selectedAddon,
             totalPrice,
@@ -117,8 +118,8 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                width={100}
-                                height={70}
+                                width={150}
+                                height={100}
                                 className="mb-3 rounded d-flex mx-auto"
                             />
                             <p className="mb-0 text-center">
@@ -277,11 +278,11 @@ const FoodDetails = ({ item, combos, onClose }) => {
                             )}
 
 
-                            {selectedCombos.length > 0 && (
-                                <div className="selected-combos mt-3">
+                            {selectedCombos.length > 0 && (<>
+                                <div className="addon-popup card shadow">
+                                    <div className="card-body">
                                     <h5>Selected Combos:</h5>
-                                    <ul className="list-group">
-                                        {selectedCombos.map((combo) => (
+                                    {selectedCombos.map((combo) => (
                                             <li
                                                 key={combo.id}
                                                 className="list-group-item d-flex justify-content-between align-items-center"
@@ -297,7 +298,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                     <span>{combo.name}</span>
                                                 </div>
                                                 <div className="d-flex align-items-center">
-                                                    <span className="me-3">${combo.price.toFixed(2)}</span>
+                                                ${(combo.price * sizePriceMultipliers[comboSizes[combo.id] || 'M']).toFixed(2)}
                                                     <div className="text-center me-3">
                                                         {combo.variants && (
                                                             <select
@@ -348,9 +349,12 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                                 </div>
                                             </li>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
-                            )}
+                                
+                            
+                                
+                            </>)}
 
                         </div>
                         <div className="modal-footer">
