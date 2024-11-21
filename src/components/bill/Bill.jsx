@@ -58,7 +58,7 @@ const pizzaList = [
     { name: 'Pesto Veggie Pizza', category: 'Vegetarian', image: 'images/Pesto Veggie Pizza.jpg', price: 290, addons: ['Pesto Sauce', 'Arugula', 'Olives'] },
 ];
 const ComboList = [
-    { name: 'Soft Drink', price: 50, image: 'images/softdrinks.jpg' },
+    { name: 'Soft Drink', price: 50, image: 'images/softdrinks.jpg' ,variants:["sprite","mirenda","7up","mountainDew"]},
     { name: 'French Fries', price: 80, image: 'images/french fries.avif',variants: ["Spicy", "Non-Spicy", "Cheesy"] },
     { name: 'Onion Rings', price: 70, image: 'images/onion rings.jpg' },
     { name: 'Side Salad', price: 60, image: 'images/side salad.webp' },
