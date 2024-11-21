@@ -124,7 +124,7 @@ function Bill() {
                             <div className="col-lg-3 col-md-4 col-6 align-items-center g-3" key={index}>
                                 <div className="card" onClick={() => handleItemClick(item)}>
                                     <img className="card-img-top" src={item.image} alt={item.name} width={100} height={100} />
-                                    <div className="card-body px-0 category-name">
+                                    <div className="card-body mb-0 category-name">
                                         <h4 className="card-title fs-6 text-center">{item.name}</h4>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@ function Bill() {
                                 className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
                                 onClick={() => handleFilter('drink')}
                             >
-                                <img src="/images/Food.png" width={50} alt="Drinks" />
+                                <img src="/images/Drinks.png" width={50} alt="Drinks" />
                                 Drinks
                             </button>
                         </div>
@@ -148,7 +148,7 @@ function Bill() {
                                 className="w-100 rounded d-flex align-items-center food-btn justify-content-center"
                                 onClick={() => handleFilter('food')}
                             >
-                                <img src="/images/Drinks.png" width={50} alt="Food" />
+                                <img src="/images/Food.png" width={50} alt="Food" />
                                 Food
                             </button>
                         </div>
@@ -174,7 +174,7 @@ function Bill() {
                 </div>
                 <div className="col-lg-4 row1">
                     <div className="row p-2 ">
-                        <div className="col-12 p-5 bg-light rounded mb-3">
+                        <div className="col-12 p-5 bg-light rounded mb-3 ">
                             {cartItems.length === 0 ? (
                                 <div className="text-center">
                                     <img src="images/emptycart1.png" width={200} className="py-5" alt="Empty Cart" />

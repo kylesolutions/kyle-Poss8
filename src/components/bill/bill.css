@@ -1,15 +1,16 @@
 .row1{
-    height: calc(100vh - 80px);
     border-radius: 4px;
 }
 
 .food-btn{
     background: #88e2e9;
     flex-direction: column;
+    border: none;
 }
 .drink-btn{
     background-color: rgb(235, 169, 241);
     flex-direction: column;
+    border: none;
 }
 .row2 button{
     border: none;
@@ -21,8 +22,7 @@
     background:#88e2e9;
 }
 .card-img-top{
-    object-fit: cover;
-    
+    object-fit: cover;    
 }
 .side-menu{
     height: 100vh;
@@ -35,8 +35,8 @@
     flex-direction: column;
     justify-content: space-around;
 }
-/* .category-name{
-    background: #9e9e9e;
-    color: rgb(0, 0, 0);
-} */
+.row1 .col-12{
+    height: calc(100vh - 100px);
+    box-shadow:  rgba(0, 0, 0, 0.16) 0px 3px 6px;
+}
   
