@@ -93,7 +93,6 @@ function Bill() {
 
     const handleItemClick = (item) => setSelectedItem(item);
 
-    const handleClose = () => setSelectedItem(null);
 
     const handleItemUpdate = (updatedItem) => {
         updateCartItem(updatedItem);
@@ -148,7 +147,7 @@ function Bill() {
                                 className="w-100 rounded d-flex align-items-center food-btn justify-content-center"
                                 onClick={() => handleFilter('food')}
                             >
-                                <img src="/images/Food.png" width={50} alt="Food" />
+                                <img src="/images/foodbg.png" width={50} alt="Food" />
                                 Food
                             </button>
                         </div>
@@ -206,7 +205,7 @@ function Bill() {
                                                                     <ul>
                                                                         {Object.keys(item.addonCounts).map((addonName) => (
                                                                             <li key={addonName}>
-                                                                                {addonName} (x{item.addonCounts[addonName]})
+                                                                                {addonName} (x{item.addonCounts[addonName]}) - ${item.ADDON_PRICE}
                                                                             </li>
                                                                         ))}
                                                                     </ul>
