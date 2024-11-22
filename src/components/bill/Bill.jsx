@@ -219,7 +219,7 @@ function Bill() {
                                                                     <ul>
                                                                         {item.selectedCombos.map((combo) => (
                                                                             <li key={combo.id}>
-                                                                                {combo.name} - ${combo.price.toFixed(2)}
+                                                                                {combo.name} - {combo.variant} - ${combo.price.toFixed(2)}
                                                                             </li>
                                                                         ))}
                                                                     </ul>

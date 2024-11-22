@@ -18,6 +18,9 @@ const FoodDetails = ({ item, combos, onClose }) => {
     const { addToCart } = useContext(CartContext);
     const [comboVariants, setComboVariants] = useState({});
     const [selectedDetails, setSelectedDetails] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
+    const [finalizedCombos, setFinalizedCombos] = useState([]);
+    const [showSelectedPopup, setShowSelectedPopup] = useState(false);
 
     const handleSaveCombo = (combo) => {
         const updatedCombo = {
@@ -35,6 +38,10 @@ const FoodDetails = ({ item, combos, onClose }) => {
 
             return [...prev, updatedCombo];
         });
+    };
+    const closeComboPopup = () => {
+        setShowPopup(false);
+        setFinalizedCombos(selectedCombos);
     };
 
     useEffect(() => {
@@ -291,86 +298,97 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                             </div>
                                         ))}
                                     </div>
-
+                                    <button className="btn btn-primary mt-3" onClick={() => setShowSelectedPopup(true)}>
+                                        View Selected Combos
+                                    </button>
                                 </div>
                             )}
 
-
-                            {selectedCombos.length > 0 && (<>
+                            {showSelectedPopup && selectedCombos.length > 0 && (
                                 <div className="addon-popup card shadow">
                                     <div className="card-body">
-                                        <h5>Selected Combos:</h5>
-                                        {selectedCombos.map((combo) => (
-                                            <li
-                                                key={combo.id}
-                                                className="list-group-item d-flex justify-content-between align-items-center"
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <h5>Selected Combos:</h5>
+                                            <button
+                                                className="btn  "
+                                                onClick={() => setShowSelectedPopup(false)}
                                             >
-                                                <div className="d-flex align-items-center">
-                                                    <img
-                                                        src={combo.image}
-                                                        alt={combo.name}
-                                                        width={50}
-                                                        height={35}
-                                                        className="rounded me-2"
-                                                    />
-                                                    <span>{combo.name}</span>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                    ${(combo.price * sizePriceMultipliers[comboSizes[combo.id] || 'M']).toFixed(2)}
-                                                    <div className="text-center me-3">
-                                                        {combo.variants && (
-                                                            <select
-                                                                className="form-select"
-                                                                value={comboVariants[combo.id] || ""}
-                                                                onChange={(e) =>
-                                                                    setComboVariants((prev) => ({
-                                                                        ...prev,
-                                                                        [combo.id]: e.target.value,
-                                                                    }))
-                                                                }
-                                                            >
-                                                                <option value="" disabled>Select a Variant</option>
-                                                                {combo.variants.map((variant) => (
-                                                                    <option key={variant} value={variant}>
-                                                                        {variant}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                        )}
+                                               <i class="bi bi-x"></i>
+                                            </button>
+                                        </div>
+                                        <ul className="list-group">
+                                            {selectedCombos.map((combo) => (
+                                                <li
+                                                    key={combo.id}
+                                                    className="list-group-item d-flex justify-content-between align-items-center"
+                                                >
+                                                    <div className="d-flex align-items-center">
+                                                        <img
+                                                            src={combo.image}
+                                                            alt={combo.name}
+                                                            width={50}
+                                                            height={35}
+                                                            className="rounded me-2"
+                                                        />
+                                                        <span>{combo.name}</span>
                                                     </div>
-                                                    <div className="text-center">
-                                                        <div
-                                                            className="btn-group"
-                                                            role="group"
-                                                            aria-label="Size selection"
-                                                        >
-                                                            {Object.keys(sizePriceMultipliers).map((size) => (
-                                                                <label key={size} className="btn btn-outline-primary">
-                                                                    <input
-                                                                        type="radio"
-                                                                        name={`combo-size-${combo.id}`}
-                                                                        value={size}
-                                                                        checked={comboSizes[combo.id] === size}
-                                                                        onChange={() => handleComboSizeChange(combo.id, size)}
-                                                                    />
-                                                                    {size}
-                                                                </label>
-                                                            ))}
+                                                    <div className="d-flex align-items-center">
+                                                        ${(combo.price * sizePriceMultipliers[comboSizes[combo.id] || 'M']).toFixed(2)}
+                                                        <div className="text-center me-3">
+                                                            {combo.variants && (
+                                                                <select
+                                                                    className="form-select"
+                                                                    value={comboVariants[combo.id] || ""}
+                                                                    onChange={(e) =>
+                                                                        setComboVariants((prev) => ({
+                                                                            ...prev,
+                                                                            [combo.id]: e.target.value,
+                                                                        }))
+                                                                    }
+                                                                >
+                                                                    <option value="" disabled>Select a Variant</option>
+                                                                    {combo.variants.map((variant) => (
+                                                                        <option key={variant} value={variant}>
+                                                                            {variant}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
                                                         </div>
+                                                        <div className="text-center">
+                                                            <div
+                                                                className="btn-group"
+                                                                role="group"
+                                                                aria-label="Size selection"
+                                                            >
+                                                                {Object.keys(sizePriceMultipliers).map((size) => (
+                                                                    <label key={size} className="btn btn-outline-primary">
+                                                                        <input
+                                                                            type="radio"
+                                                                            name={`combo-size-${combo.id}`}
+                                                                            value={size}
+                                                                            checked={comboSizes[combo.id] === size}
+                                                                            onChange={() => handleComboSizeChange(combo.id, size)}
+                                                                        />
+                                                                        {size}
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            className="btn btn-sm"
+                                                            onClick={() => toggleComboSelection(combo)}
+                                                        >
+                                                            <i className="bi bi-x-circle-fill"></i>
+                                                        </button>
                                                     </div>
-                                                    <button
-                                                        className="btn btn-sm"
-                                                        onClick={() => toggleComboSelection(combo)}
-                                                    >
-                                                        <i className="bi bi-x-circle-fill"></i>
-                                                    </button>
-                                                </div>
-                                                
-                                            </li>
-                                        ))}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 </div>
-                            </>)}
+                            )}
+
                         </div>
                         <div className="modal-footer">
                             <button
