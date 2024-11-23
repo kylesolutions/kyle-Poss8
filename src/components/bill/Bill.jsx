@@ -63,6 +63,7 @@ const ComboList = [
     { name: 'Onion Rings', price: 70, image: 'images/onion rings.jpg' },
     { name: 'Side Salad', price: 60, image: 'images/side salad.webp' },
 ];
+const ADDON_PRICE = 1.5;
 
 function Bill() {
     const [menuItems, setMenuItems] = useState([...foodList, ...BurgerList, ...pizzaList]);

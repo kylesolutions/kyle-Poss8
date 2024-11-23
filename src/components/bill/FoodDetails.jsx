@@ -95,7 +95,7 @@ const FoodDetails = ({ item, combos, onClose }) => {
             basePrice: item.price,
             selectedSize,
             addonCounts,
-            ADDON_PRICE,
+            ADDON_PRICE: ADDON_PRICE,
             selectedCombos: selectedCombos.map((combo) => ({
                 ...combo,
                 variant: comboVariants[combo.id] || " ",
