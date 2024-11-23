@@ -243,7 +243,6 @@ const FoodDetails = ({ item, combos, onClose }) => {
                                     </div>
                                 </div>
                             )}
-
                             <div>
                                 <div className="form-check mt-4">
                                     <input

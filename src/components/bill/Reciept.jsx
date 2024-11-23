@@ -7,6 +7,8 @@ function Reciept() {
     const [userData, setUserData] = useState({
         name: '',
         mobile: '',
+        flat_name:'',
+        flat_no:''
     });
     const location = useLocation();
     const { totalAmount} = location.state || {}; 
@@ -52,6 +54,26 @@ function Reciept() {
                             required 
                         />
                     </label>
+                    <label>
+                        Flat name:
+                        <input 
+                            type="text" 
+                            name="flat_name" 
+                            value={userData.flat_name} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </label>
+                    <label>
+                        Flat no:
+                        <input 
+                            type="text" 
+                            name="flat_no" 
+                            value={userData.flat_no} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </label>
                     <span>{}</span>
                 </div>
                 <div className="form-section">
@@ -59,16 +81,24 @@ function Reciept() {
                     <div className="payment-options-isotope-grid">
                         <button 
                             className="payment-button" 
-                            onClick={() => handlePaymentMethodSelect('gateway')}
+                            onClick={() => handlePaymentMethodSelect('cash')}
                         >
-                            UPI/PAYTM
+                            CASH
                         </button>
                         <button 
                             className="payment-button" 
                             onClick={() => handlePaymentMethodSelect('cash')}
                         >
-                            CASH
+                            CARD
                         </button>
+                        <button 
+                            className="payment-button" 
+                            onClick={() => handlePaymentMethodSelect('gateway')}
+                        >
+                            UPI/PAYTM
+                        </button>
+                       
+                        
                     </div>
                 </div>
 

@@ -5,16 +5,20 @@
     height: 100vh;
     overflow-y: scroll;
 }
-
+.card-title{
+    font-family: 'Dubai Medium';
+}
 .food-btn{
     background: #88e2e9;
     flex-direction: column;
     border: none;
+    height: 100px;
 }
 .drink-btn{
     background-color: rgb(235, 169, 241);
     flex-direction: column;
     border: none;
+    height: 100px;
 }
 .row2 button{
     border: none;
