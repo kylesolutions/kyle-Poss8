@@ -1,9 +1,11 @@
 .row1{
     border-radius: 4px;
+    font-family: 'Dubai Medium';
 }
 .row2{
     height: 100vh;
     overflow-y: scroll;
+    font-family: 'Dubai Medium';
 }
 .card-title{
     font-family: 'Dubai Medium';
@@ -13,12 +15,14 @@
     flex-direction: column;
     border: none;
     height: 100px;
+    font-family: 'Dubai Medium';
 }
 .drink-btn{
     background-color: rgb(235, 169, 241);
     flex-direction: column;
     border: none;
     height: 100px;
+    font-family: 'Dubai Medium';
 }
 .row2 button{
     border: none;
@@ -29,9 +33,6 @@
 .food-btn:hover{
     background:#88e2e9;
 }
-.card-img-top{
-    object-fit: cover;    
-}
 .side-menu{
     height: 100vh;
 }
@@ -39,12 +40,24 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px
 }
 .card-body{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
+    font-family: 'Dubai Medium';
 }
 .row1 .col-12{
     height: calc(100vh - 100px);
     box-shadow:  rgba(0, 0, 0, 0.16) 0px 3px 6px;
 }
+.card-img-top{
+    height: 200px;
+}
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.card img {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
   
