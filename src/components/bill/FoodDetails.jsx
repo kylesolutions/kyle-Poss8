@@ -35,15 +35,18 @@ const FoodDetails = ({ item, onClose }) => {
                         'Content-Type': 'application/json',
                     },
                 });
+        
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+        
                 const data = await response.json();
-                console.log('API Response:', data);
-
                 if (data && Array.isArray(data.message)) {
                     const baseUrl = 'http://109.199.100.136:8001/';
-                    const formattedItem = data.message[0]; 
+                    const formattedItem = data.message[0];
                     const formattedAddonData = formattedItem.addons || [];
                     const formattedComboData = formattedItem.combos || [];
-
                     setFetchedItem({
                         name: formattedItem.item_name,
                         category: formattedItem.item_group,
@@ -59,6 +62,7 @@ const FoodDetails = ({ item, onClose }) => {
                 console.error('Error fetching item details:', error);
             }
         };
+        
 
         fetchItemDetails();
     }, [item]);
