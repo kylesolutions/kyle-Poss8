@@ -24,16 +24,16 @@ function Bill() {
                     },
                 });
         
-                // Check if the response is okay (status 200)
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
         
-                // Try parsing the response as JSON
+               
                 const data = await response.json();
                 console.log('API Response:', data);
         
-                // Check if data is valid and contains a message array
+               
                 if (data && Array.isArray(data.message)) {
                     const baseUrl = 'http://109.199.100.136:8001/';
                     const formattedItems = data.message.map((item) => ({
@@ -43,9 +43,7 @@ function Bill() {
                         price: item.price || 0,
                         addons: item.addons || [],
                         combos: item.combos || [],
-                    }));
-        
-                    // Setting the menu items and filtered items state
+                    }));      
                     setMenuItems(formattedItems);
                     setFilteredItems(formattedItems);
                 } else {
@@ -53,7 +51,7 @@ function Bill() {
                 }
             } catch (error) {
                 console.error('Error fetching items:', error);
-                // Optionally handle the error in the UI, like showing an alert or error message
+                
             }
         };
         
