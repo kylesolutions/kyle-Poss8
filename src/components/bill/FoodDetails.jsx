@@ -45,12 +45,13 @@ const FoodDetails = ({ item, onClose }) => {
                 if (data && Array.isArray(data.message)) {
                     const baseUrl = 'http://109.199.100.136:8001/';
 
-                   
+
                     const selectedItem = data.message.find((i) => i.name === item.name);
 
                     if (selectedItem) {
                         const formattedAddonData = selectedItem.addons || [];
                         const formattedComboData = selectedItem.combos || [];
+                        const formattedIngredientsData = selectedItem.ingredients || []; 
 
                         setFetchedItem({
                             name: selectedItem.item_name,
@@ -59,6 +60,10 @@ const FoodDetails = ({ item, onClose }) => {
                             price: selectedItem.price || 0,
                             addons: formattedAddonData,
                             combos: formattedComboData,
+                            ingredients: formattedIngredientsData,
+                            calories:selectedItem.total_calories,
+                            protein:selectedItem.total_protein,
+
                         });
                     }
                 } else {
@@ -73,34 +78,41 @@ const FoodDetails = ({ item, onClose }) => {
     }, [item]);
 
 
+
     useEffect(() => {
         if (fetchedItem) {
-            const basePrice = fetchedItem.price * sizePriceMultipliers[selectedSize];
-            const addonsPrice = Object.entries(addonCounts).reduce((sum, [addon, multiplier]) => {
-                const addonDetail = fetchedItem.addons.find(a => a.name1 === addon);
-                const addonPrice = addonDetail ? 20 : 0;
+            const basePrice = fetchedItem.price;
+
+            const addonsPrice = Object.entries(addonCounts).reduce((sum, [addonName, multiplier]) => {
+                const addonDetail = fetchedItem.addons.find(a => a.name1 === addonName);
+                const addonPrice = addonDetail ? addonDetail.addon_price : 0;
                 return sum + multiplier * addonPrice;
             }, 0);
 
+
             const comboPrice = selectedCombos.reduce((sum, combo) => {
+                const comboDetail = fetchedItem.combos.find(c => c.name1 === combo.name1);
                 const comboSize = comboSizes[combo.name1] || 'M';
                 const multiplier = sizePriceMultipliers[comboSize];
-                return sum + 50 * multiplier;
+                const comboBasePrice = comboDetail ? comboDetail.combo_price : 0;
+                return sum + comboBasePrice;
             }, 0);
+
 
             setTotalPrice(basePrice + addonsPrice + comboPrice);
         }
     }, [selectedSize, addonCounts, selectedCombos, comboSizes, fetchedItem]);
 
+
     const handleSizeChange = (size) => setSelectedSize(size);
     const [addonSelection, setAddonSelection] = useState({});
 
-   const handleAddonCheck = (addon, checked) => {
-    setAddonSelection((prev) => ({
-        ...prev,
-        [addon.name1]: checked, 
-    }));
-};
+    const handleAddonCheck = (addon, checked) => {
+        setAddonSelection((prev) => ({
+            ...prev,
+            [addon.name1]: checked,
+        }));
+    };
 
     const openAddonPopup = (addon) => setSelectedAddon(addon);
     const closeAddonPopup = () => {
@@ -176,104 +188,149 @@ const FoodDetails = ({ item, onClose }) => {
                                 <strong>Total Price:</strong> ${totalPrice.toFixed(2)}
                             </p>
 
-                            <div className="radio-inputs" role="group" aria-label="Size selection">
-                                {Object.keys(sizePriceMultipliers).map((size) => (
-                                    <label key={size} className="radio">
-                                        <input
-                                            type="radio"
-                                            name="size"
-                                            value={size}
-                                            checked={selectedSize === size}
-                                            onChange={() => handleSizeChange(size)}
-                                        />
-                                        <span className="name">{size}</span>
-                                    </label>
-                                ))}
-                            </div>
+                            <div>
+                                {fetchedItem?.variants?.length > 0 && (
+                                    <div className="radio-inputs" role="group" aria-label="Size selection">
+                                        {Object.keys(sizePriceMultipliers).map((size) => (
+                                            <label key={size} className="radio">
+                                                <input
+                                                    type="radio"
+                                                    name="size"
+                                                    value={size}
+                                                    checked={selectedSize === size}
+                                                    onChange={() => handleSizeChange(size)}
+                                                />
+                                                <span className="name">{size}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
 
-                            <div className="mt-3">
-                                <strong>Add-ons:</strong>
-                                <ul className="addons-list d-flex justify-content-evenly">
-                                    {fetchedItem?.addons?.map((addon) => (
-                                        <li key={addon.name1} className="addon-item">
-                                            <input
-                                                type="checkbox"
-                                                checked={addonCounts[addon.name1] > 0 || false} 
-                                                onChange={(e) => handleAddonCheck(addon, e.target.checked)}
-                                            />
+
+                                {fetchedItem?.addons?.length > 0 && (
+                                    <div className="mt-3">
+                                        <strong>Add-ons:</strong>
+                                        <ul className="addons-list d-flex justify-content-evenly">
+                                            {fetchedItem.addons.map((addon) => {
+                                                const baseUrl = 'http://109.199.100.136:8001/';
+                                                return (
+                                                    <li key={addon.name1} className="addon-item">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={addonCounts[addon.name1] > 0 || false}
+                                                        />
+                                                        <img
+                                                            src={addon.addon_image ? `${baseUrl}${addon.addon_image}` : 'default-addon-image.jpg'}
+                                                            width={50}
+                                                            height={50}
+                                                            className="mx-2 rounded"
+                                                            alt={addon.name1}
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = 'default-addon-image.jpg';
+                                                            }}
+                                                        />
+                                                        <span>{addon.name1}</span>
+                                                        <span>${addon.addon_price}</span>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {selectedAddon && (
+                                    <div className="addon-popup card shadow">
+                                        <div className="card-body">
+                                            <h5 className="card-title text-center">
+                                                Customize Add-on: {selectedAddon.name1}
+                                            </h5>
                                             <img
-                                                src={addon.image ? `http://109.199.100.136:8001${addon.image}` : 'default-addon-image.jpg'}
-                                                width={50}
-                                                height={50}
-                                                className="mx-2 rounded"
-                                                alt={addon.name1}
+                                                src={selectedAddon.addon_image ? `${baseUrl}${selectedAddon.addon_image}` : 'default-addon-image.jpg'}
+                                                alt={selectedAddon.name1}
+                                                width={80}
+                                                height={80}
+                                                className="mb-3"
                                             />
-                                            <span>{addon.name1}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-
-                            {selectedAddon && (
-                                <div className="addon-popup card shadow">
-                                    <div className="card-body">
-                                        <h5 className="card-title text-center">
-                                            Customize Add-on: {selectedAddon.name1}
-                                        </h5>
-                                        <img
-                                            src={selectedAddon.image ? `http://109.199.100.136:8001${selectedAddon.image}` : 'default-addon-image.jpg'}
-                                            alt={selectedAddon.name1}
-                                            width={80}
-                                            height={80}
-                                            className="mb-3"
-                                        />
-                                        <div className="text-center mt-4">
-                                            <button className="btn" onClick={closeAddonPopup}>
-                                                Done
-                                            </button>
+                                            <div className="text-center mt-4">
+                                                <button className="btn" onClick={closeAddonPopup}>
+                                                    Done
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            <div>
-                                <div className="form-check mt-4">
-                                    <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        checked={showCombos}
-                                        onChange={() => setShowCombos(!showCombos)}
-                                    />
-                                    <label className="form-check-label">Show Combos</label>
-                                </div>
 
-                                {showCombos && (
-                                    <div className="combo-list mt-3">
-                                        <h5>Combo Options:</h5>
-                                        <div className="row">
-                                            {fetchedItem?.combos?.map((combo) => (
-                                                <div
-                                                    key={combo.name1}
-                                                    className={`col-lg-3 col-md-4 col-6 text-center mb-3  ${selectedCombos.some((selected) => selected.name1 === combo.name1) ? 'selected' : ''}`}
-                                                    onClick={() => toggleComboSelection(combo)}
-                                                >
-                                                    <div className="combo-option">
-                                                        <img
-                                                            src={combo.image ? `http://109.199.100.136:8001${combo.image}` : 'default-combo-image.jpg'}
-                                                            alt={combo.name1}
-                                                            width={100}
-                                                            height={70}
-                                                            className="rounded mb-2"
-                                                        />
-                                                        <p>{combo.name1}</p>
+                                {fetchedItem?.combos?.length > 0 && (
+                                    <div>
+                                        <div className="form-check mt-4">
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                checked={showCombos}
+                                                onChange={() => setShowCombos(!showCombos)}
+                                            />
+                                            <label className="form-check-label">Show Combos</label>
+                                        </div>
+
+                                        {showCombos && (
+                                            <div className="combo-list mt-3">
+                                                <h5>Combo Options:</h5>
+                                                <div className="row">
+                                                    {fetchedItem.combos.map((combo) => (
+                                                        <div
+                                                            key={combo.name1}
+                                                            className={`col-lg-3 col-md-4 col-6 text-center mb-3 ${selectedCombos.some((selected) => selected.name1 === combo.name1) ? 'selected' : ''
+                                                                }`}
+                                                            onClick={() => toggleComboSelection(combo)}
+                                                        >
+                                                            <div className="combo-option">
+                                                                <img
+                                                                    src={combo.combo_image ? `http://109.199.100.136:8001${combo.combo_image}` : 'default-combo-image.jpg'}
+                                                                    alt={combo.name1}
+                                                                    width={100}
+                                                                    height={70}
+                                                                    className="rounded mb-2"
+                                                                />
+                                                                <p>{combo.name1}</p>
+                                                                <p>${combo.combo_price}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {fetchedItem?.ingredients?.length > 0 && (
+                                    <div className="ingredient-container">
+                                        <h3 className="ingredient-title">Ingredients</h3>
+                                        <div className="ingredient-list">
+                                            {fetchedItem.ingredients.map((ingredient, index) => (
+                                                <div className="ingredient-card" key={index}>
+                                                    <div className="ingredient-details">
+                                                        <h4 className="ingredient-name">{ingredient.ingredients_name}</h4>
+                                                        <p className="ingredient-info">
+                                                            <strong>Calories:</strong> {ingredient.calories}
+                                                        </p>
+                                                        <p className="ingredient-info">
+                                                            <strong>Protein:</strong> {ingredient.protein}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
                                 )}
+                                
+                                <div>
+                                    <p>Total Calories: {fetchedItem?.calories}</p>
+                                    <p>Total Protein: {fetchedItem?.protein}</p>
+                                </div>
                             </div>
+
                         </div>
                         <div className="modal-footer">
                             <button

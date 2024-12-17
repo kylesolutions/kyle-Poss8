@@ -247,3 +247,56 @@ label span:hover {
   margin-right: 10px;
 }
 
+
+/* ingredients */
+
+.ingredient-container {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.ingredient-title {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 8px;
+}
+.ingredient-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+.ingredient-card {
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+.ingredient-card:hover {
+  transform: scale(1.05);
+}
+.ingredient-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+.ingredient-info {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 4px 0;
+}
+.ingredient-info strong {
+  color: #000;
+}

@@ -23,17 +23,17 @@ function Bill() {
                         'Content-Type': 'application/json',
                     },
                 });
-        
+
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-        
-               
+
+
                 const data = await response.json();
                 console.log('API Response:', data);
-        
-               
+
+
                 if (data && Array.isArray(data.message)) {
                     const baseUrl = 'http://109.199.100.136:8001/';
                     const formattedItems = data.message.map((item) => ({
@@ -43,7 +43,7 @@ function Bill() {
                         price: item.price || 0,
                         addons: item.addons || [],
                         combos: item.combos || [],
-                    }));      
+                    }));
                     setMenuItems(formattedItems);
                     setFilteredItems(formattedItems);
                 } else {
@@ -51,11 +51,11 @@ function Bill() {
                 }
             } catch (error) {
                 console.error('Error fetching items:', error);
-                
+
             }
         };
-        
-      fetchItems();
+
+        fetchItems();
     }, []);
 
     const handleFilter = (category) => {
@@ -70,6 +70,14 @@ function Bill() {
                     return categoryLower.includes('drink');
                 case 'starter':
                     return categoryLower.includes('starter');
+                case 'sandwich':
+                    return categoryLower.includes('sandwich');
+                case 'momos':
+                    return categoryLower.includes('momos');
+                case 'steaks':
+                    return categoryLower.includes('steaks');
+                case 'fried rice':
+                    return categoryLower.includes('fried rice');
                 default:
                     return true;
             }
@@ -152,12 +160,49 @@ function Bill() {
                         <div className="col-lg-12 mb-2">
                             <button
                                 className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
-                                onClick={() => handleFilter('pizza')}
+                                onClick={() => handleFilter('starter')}
                             >
-                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="Pizza" />
-                                Pizza
+                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="starter" />
+                                starter
                             </button>
                         </div>
+                        <div className="col-lg-12 mb-2">
+                            <button
+                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
+                                onClick={() => handleFilter('sandwich')}
+                            >
+                                <img src="/images/Food 1.png" width={50} alt="sandwich" />
+                                sandwich
+                            </button>
+                        </div>
+                        <div className="col-lg-12 mb-2">
+                            <button
+                                className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
+                                onClick={() => handleFilter('momos')}
+                            >
+                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="momos" />
+                                momos
+                            </button>
+                        </div>
+                        <div className="col-lg-12 mb-2">
+                            <button
+                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
+                                onClick={() => handleFilter('steaks')}
+                            >
+                                <img src="/images/Food 1.png" width={50} alt="steaks" />
+                                steaks
+                            </button>
+                        </div>
+                        <div className="col-lg-12 mb-2">
+                            <button
+                                className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
+                                onClick={() => handleFilter('fried rice')}
+                            >
+                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="friedrice" />
+                                friedrice
+                            </button>
+                        </div>
+            
                     </div>
                 </div>
                 <div className="col-lg-4 row1">
