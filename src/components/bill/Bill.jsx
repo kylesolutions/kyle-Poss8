@@ -10,6 +10,7 @@ function Bill() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItemForUpdate, setSelectedItemForUpdate] = useState(null);
+    const [categories, setCategories] = useState([]);
     const { cartItems, addToCart, removeFromCart, updateCartItem } = useContext(CartContext);
     const navigate = useNavigate();
 
@@ -46,6 +47,12 @@ function Bill() {
                     }));
                     setMenuItems(formattedItems);
                     setFilteredItems(formattedItems);
+
+                    const uniqueCategories = [
+                        ...new Set(formattedItems.map((item) => item.category.toLowerCase())),
+                    ];
+                    setCategories(uniqueCategories);
+
                 } else {
                     throw new Error('Invalid data structure or missing message array');
                 }
@@ -59,29 +66,9 @@ function Bill() {
     }, []);
 
     const handleFilter = (category) => {
-        const filtered = menuItems.filter((item) => {
-            const categoryLower = item.category.toLowerCase();
-            switch (category.toLowerCase()) {
-                case 'burger':
-                    return categoryLower.includes('burger');
-                case 'pizza':
-                    return categoryLower.includes('pizza');
-                case 'drink':
-                    return categoryLower.includes('drink');
-                case 'starter':
-                    return categoryLower.includes('starter');
-                case 'sandwich':
-                    return categoryLower.includes('sandwich');
-                case 'momos':
-                    return categoryLower.includes('momos');
-                case 'steaks':
-                    return categoryLower.includes('steaks');
-                case 'fried rice':
-                    return categoryLower.includes('fried rice');
-                default:
-                    return true;
-            }
-        });
+        const filtered = menuItems.filter((item) =>
+            item.category.toLowerCase() === category.toLowerCase()
+        );
         setFilteredItems(filtered);
         setSelectedCategory(category);
     };
@@ -130,81 +117,20 @@ function Bill() {
                 </div>
                 <div className="col-lg-1">
                     <div className="row p-2">
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
-                                onClick={() => handleFilter('drink')}
-                            >
-                                <img src="/images/Drinks.png" width={50} alt="Drinks" />
-                                Drinks
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="w-100 rounded d-flex align-items-center food-btn justify-content-center"
-                                onClick={() => handleFilter('food')}
-                            >
-                                <img src="/images/foodbg 1.png" width={50} alt="Food" />
-                                Food
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
-                                onClick={() => handleFilter('burger')}
-                            >
-                                <img src="/images/Food 1.png" width={50} alt="Burger" />
-                                Burger
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
-                                onClick={() => handleFilter('starter')}
-                            >
-                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="starter" />
-                                starter
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
-                                onClick={() => handleFilter('sandwich')}
-                            >
-                                <img src="/images/Food 1.png" width={50} alt="sandwich" />
-                                sandwich
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
-                                onClick={() => handleFilter('momos')}
-                            >
-                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="momos" />
-                                momos
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center drink-btn justify-content-center"
-                                onClick={() => handleFilter('steaks')}
-                            >
-                                <img src="/images/Food 1.png" width={50} alt="steaks" />
-                                steaks
-                            </button>
-                        </div>
-                        <div className="col-lg-12 mb-2">
-                            <button
-                                className="text-dark w-100 rounded d-flex align-items-center food-btn justify-content-center"
-                                onClick={() => handleFilter('fried rice')}
-                            >
-                                <img src="/images/pizza_logo-removebg-preview.png" width={50} alt="friedrice" />
-                                friedrice
-                            </button>
-                        </div>
-            
+                        {categories.map((category, index) => (
+                            <div key={index} className="col-lg-12 mb-2">
+                                <button
+                                    className={`text-dark w-100 rounded d-flex align-items-center justify-content-center ${selectedCategory === category ? 'active-category' : ''
+                                        }`}
+                                    onClick={() => handleFilter(category)}
+                                >
+                                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 </div>
+
                 <div className="col-lg-4 row1">
                     <div className="row p-2">
                         <div className="col-12 p-5 bg-light rounded mb-3">

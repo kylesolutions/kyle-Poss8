@@ -205,8 +205,6 @@ const FoodDetails = ({ item, onClose }) => {
                                         ))}
                                     </div>
                                 )}
-
-
                                 {fetchedItem?.addons?.length > 0 && (
                                     <div className="mt-3">
                                         <strong>Add-ons:</strong>
@@ -261,7 +259,6 @@ const FoodDetails = ({ item, onClose }) => {
                                     </div>
                                 )}
 
-
                                 {fetchedItem?.combos?.length > 0 && (
                                     <div>
                                         <div className="form-check mt-4">
@@ -273,7 +270,6 @@ const FoodDetails = ({ item, onClose }) => {
                                             />
                                             <label className="form-check-label">Show Combos</label>
                                         </div>
-
                                         {showCombos && (
                                             <div className="combo-list mt-3">
                                                 <h5>Combo Options:</h5>
@@ -303,7 +299,6 @@ const FoodDetails = ({ item, onClose }) => {
                                         )}
                                     </div>
                                 )}
-
                                 {fetchedItem?.ingredients?.length > 0 && (
                                     <div className="ingredient-container">
                                         <h3 className="ingredient-title">Ingredients</h3>
@@ -323,14 +318,12 @@ const FoodDetails = ({ item, onClose }) => {
                                             ))}
                                         </div>
                                     </div>
-                                )}
-                                
+                                )}                               
                                 <div>
                                     <p>Total Calories: {fetchedItem?.calories}</p>
                                     <p>Total Protein: {fetchedItem?.protein}</p>
                                 </div>
                             </div>
-
                         </div>
                         <div className="modal-footer">
                             <button
