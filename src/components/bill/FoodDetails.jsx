@@ -31,7 +31,7 @@ const FoodDetails = ({ item, onClose }) => {
                 const response = await fetch('/api/method/intern.intern.kyle_api.Kyle_items.get_kyle_item_details', {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'token 8531904bdbbf00c:1da311f3ef138c0',
+                        'Authorization': 'token 8531904bdbbf00c:bf68905e1a692f5',
                         'Content-Type': 'application/json',
                     },
                 });
